@@ -12,24 +12,13 @@ import { GlobalStyles } from "./constants/styles";
 import AllExpenses from "./screens/AllExpenses";
 import ManageExpense from "./screens/ManageExpense";
 import RecentExpenses from "./screens/RecentExpenses";
+import AddExpense from "./screens/AddExpense";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const AddExpense = ({ onPress }) => {
-  return <Pressable style={[styles.centerButton, styles.shadow]} onPress={onPress}>
-    <View style={{width: 70, height: 70}}>
-      <Ionicons
-        name="add"
-        size={35}
-        color={GlobalStyles.colors.primaryVariant}
-      />
-    </View>
-  </Pressable>;
-};
-
-const NullComponent = () => {
-  return null
+function NullComponent() {
+  <Text>This should never show up</Text>;
 }
 
 function ExpensesOverview() {
@@ -64,8 +53,22 @@ function ExpensesOverview() {
         name="Add"
         component={NullComponent}
         options={{
-          tabBarButton: () => (<AddExpense />),
-        }} 
+          tabBarIcon: ({ focused, size, color }) => (
+            <View style={styles.tabBarIconCenter}>
+              <Ionicons
+                name="add-circle"
+                size={100}
+                color={GlobalStyles.colors.primaryVariant}
+              />
+            </View>
+          ),
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate("AddExpense");
+          },
+        })}
       />
       <Tab.Screen
         name="AllExpenses"
@@ -74,7 +77,7 @@ function ExpensesOverview() {
           title: "All Expenses",
           tabBarLabel: "All Expenses",
           tabBarIcon: ({ color, size }) => (
-            <View style={styles.tabBarIcon}>
+            <View style={[styles.tabBarIcon, styles.shadow]}>
               <Ionicons name="calendar" size={size} color={color} />
             </View>
           ),
@@ -90,12 +93,21 @@ export default function App() {
       <StatusBar style="light" />
       <NavigationContainer>
         <Stack.Navigator options={{ headerShadowVisible: false }}>
-          <Stack.Screen
-            name="Expenses Overview"
-            component={ExpensesOverview}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="ManageExpense" component={ManageExpense} />
+          <Stack.Group>
+            <Stack.Screen
+              name="Expenses Overview"
+              component={ExpensesOverview}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="ManageExpense" component={ManageExpense} />
+          </Stack.Group>
+          <Stack.Group screenOptions={{ presentation: "modal" }}>
+            <Stack.Screen
+              name="AddExpense"
+              component={AddExpense}
+              options={{ title: "Add new Entry" }}
+            />
+          </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
     </>
@@ -115,7 +127,7 @@ const styles = StyleSheet.create({
     elevation: 0,
   },
   shadow: {
-    shadowColor: "#000000",
+    shadowColor: "#121212",
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.25,
     shadowRadius: 3.5,
@@ -127,15 +139,9 @@ const styles = StyleSheet.create({
     top: 15,
     alignContent: "center",
   },
-  centerButton: {
-    justifyContent: "center",
+  tabBarIconCenter: {
+    backgroundColor: "rgba(0,0,0,0)",
     top: 10,
-    alignItems: "center",
-  },
-  centerButtonView: {
-    width: 70,
-    hgeight: 70,
-    borderRadius: 35,
-    backgroundColor: GlobalStyles.colors.primary,
+    height: 100,
   },
 });
