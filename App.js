@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Button } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -12,7 +12,7 @@ import { GlobalStyles } from "./constants/styles";
 import AllExpenses from "./screens/AllExpenses";
 import ManageExpense from "./screens/ManageExpense";
 import RecentExpenses from "./screens/RecentExpenses";
-import AddExpense from "./screens/AddExpense";
+import ExpensesContextProvider from "./store/expenses-context";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -66,7 +66,7 @@ function ExpensesOverview() {
         listeners={({ navigation }) => ({
           tabPress: (e) => {
             e.preventDefault();
-            navigation.navigate("AddExpense");
+            navigation.navigate("ManageExpense");
           },
         })}
       />
@@ -90,26 +90,35 @@ function ExpensesOverview() {
 export default function App() {
   return (
     <>
-      <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator options={{ headerShadowVisible: false }}>
-          <Stack.Group>
-            <Stack.Screen
-              name="Expenses Overview"
-              component={ExpensesOverview}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="ManageExpense" component={ManageExpense} />
-          </Stack.Group>
-          <Stack.Group screenOptions={{ presentation: "modal" }}>
-            <Stack.Screen
-              name="AddExpense"
-              component={AddExpense}
-              options={{ title: "Add new Entry" }}
-            />
-          </Stack.Group>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <ExpensesContextProvider>
+        <StatusBar style="light" />
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              tabBarShowLabel: false,
+              headerStyle: { backgroundColor: GlobalStyles.colors.background },
+              headerTintColor: GlobalStyles.colors.onBackground,
+              tabBarStyle: {
+                ...styles.tabBar,
+                ...styles.shadow,
+              },
+              tabBarActiveTintColor: GlobalStyles.colors.secondary,
+              headerShadowVisible: false,
+            }}
+          >
+            <Stack.Group>
+              <Stack.Screen
+                name="Expenses Overview"
+                component={ExpensesOverview}
+                options={{ headerShown: false }}
+              />
+            </Stack.Group>
+            <Stack.Group screenOptions={{ presentation: "modal" }}>
+              <Stack.Screen name="ManageExpense" component={ManageExpense} />
+            </Stack.Group>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ExpensesContextProvider>
     </>
   );
 }
