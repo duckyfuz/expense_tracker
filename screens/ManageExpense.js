@@ -4,6 +4,7 @@ import { GlobalStyles } from "../constants/styles";
 import CustButton from "../components/UI/CustButton";
 import { ExpensesContext } from "../store/expenses-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
+import { deleteExpense, storeExpense, updateExpense } from "../util/http";
 
 const ManageExpense = ({ route, navigation }) => {
   const expensesCtx = useContext(ExpensesContext);
@@ -22,6 +23,7 @@ const ManageExpense = ({ route, navigation }) => {
   }, [navigation, isEditing]);
 
   function deleteExpenseHandler() {
+    deleteExpense(editedExpenseId);
     expensesCtx.deleteExpense(editedExpenseId);
     navigation.goBack();
   }
@@ -30,11 +32,13 @@ const ManageExpense = ({ route, navigation }) => {
     navigation.goBack();
   }
 
-  function confirmHandler(expenseData) {
+  async function confirmHandler(expenseData) {
     if (isEditing) {
       expensesCtx.updateExpense(editedExpenseId, expenseData);
+      await updateExpense(editedExpenseId, expenseData);
     } else {
-      expensesCtx.addExpense(expenseData);
+      const id = await storeExpense(expenseData);
+      expensesCtx.addExpense({ ...expenseData, id: id });
     }
     navigation.goBack();
   }
@@ -50,7 +54,9 @@ const ManageExpense = ({ route, navigation }) => {
 
       {isEditing && (
         <View style={styles.deleteContainer}>
-          <Button title={"Delete"} onPress={deleteExpenseHandler} />
+          <CustButton onPress={deleteExpenseHandler} style={styles.button}>
+            Delete
+          </CustButton>
         </View>
       )}
     </View>
@@ -72,5 +78,10 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     borderTopColor: GlobalStyles.colors.error,
     alignItems: "center",
+  },
+  button: {
+    minWidth: 120,
+    marginHorizontal: 8,
+    marginVertical: 12,
   },
 });
