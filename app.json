@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "expense_tracker",
+    "name": "xpense tracker",
     "slug": "expense_tracker",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,16 +13,26 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
+        "versionCode": "1",
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "color": "#ffffff"
+        }
+      ]
+    ]
   }
 }

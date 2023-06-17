@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Button } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -14,6 +14,17 @@ import ManageExpense from "./screens/ManageExpense";
 import RecentExpenses from "./screens/RecentExpenses";
 import ExpensesContextProvider from "./store/expenses-context";
 
+import * as Notifications from "expo-notifications";
+import IconButton from "./components/UI/IconButton";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +32,7 @@ function NullComponent() {
   <Text>This should never show up</Text>;
 }
 
-function ExpensesOverview() {
+const ExpensesOverview = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -40,6 +51,15 @@ function ExpensesOverview() {
         name="RecentExpenses"
         component={RecentExpenses}
         options={{
+          headerRight: () => (
+            <IconButton
+              icon="save"
+              size={24}
+              color={GlobalStyles.colors.secondary}
+              onPress={scheduleNotificationHandler}
+              additionalStyle={{ marginRight: 12 }}
+            />
+          ),
           title: "Recent Expenses",
           tabBarLabel: "Recent",
           tabBarIcon: ({ color, size }) => (
@@ -85,7 +105,7 @@ function ExpensesOverview() {
       />
     </Tab.Navigator>
   );
-}
+};
 
 export default function App() {
   return (
@@ -121,6 +141,20 @@ export default function App() {
       </ExpensesContextProvider>
     </>
   );
+}
+
+async function scheduleNotificationHandler() {
+  console.log("notification schedued");
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "🚨🚨🚨 TIME TO RECORD YOUR EXPENSES 🚨🚨🚨",
+      body: "Record your expenses now!!!",
+    },
+    trigger: {
+      seconds: 5,
+    },
+  });
+  console.log("notification sent");
 }
 
 const styles = StyleSheet.create({
