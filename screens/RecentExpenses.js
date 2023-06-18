@@ -1,16 +1,37 @@
-import { View, StyleSheet } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { StyleSheet, Platform, ScrollView, SafeAreaView } from "react-native";
+import { AnimatedFAB } from "react-native-paper";
+
+import { useNavigation } from "@react-navigation/native";
+
+import { getDateMinusDays } from "../util/date";
+import { fetchExpenses } from "../util/http";
+
+import { ExpensesContext } from "../store/expenses-context";
 
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
-import { GlobalStyles } from "../constants/styles";
-
-import { useContext, useEffect, useState } from "react";
-import { getDateMinusDays } from "../util/date";
-import { ExpensesContext } from "../store/expenses-context";
-import { fetchExpenses } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+import ManageExpense from "./ManageExpense";
 
-function RecentExpenses() {
+const RecentExpenses = ({ visible, animateFrom, style }) => {
+  // Background work for the FAB
+  const [isExtended, setIsExtended] = useState(true);
+
+  const isIOS = Platform.OS === "ios";
+
+  const onScroll = ({ nativeEvent }) => {
+    const currentScrollPosition =
+      Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
+
+    setIsExtended(currentScrollPosition <= 0);
+  };
+
+  const fabStyle = { [animateFrom]: 16 };
+
+  // Calculations n stuff
+  const navigation = useNavigation();
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
 
@@ -49,22 +70,43 @@ function RecentExpenses() {
     return expense.date >= date7DaysAgo && expense.date <= today;
   });
 
+  // Rendering...
   return (
-    <View style={styles.container}>
-      <ExpensesOutput
-        expenses={recentExpenses}
-        expensesPeriod="Last 7 Days"
-        fallbackText="No expenses registed for the past 7 days"
+    <SafeAreaView style={styles.container}>
+      <ScrollView onScroll={onScroll}>
+        {[...new Array(1).keys()].map((_, i) => (
+          <ExpensesOutput
+            expenses={recentExpenses}
+            expensesPeriod="Last 7 Days"
+            fallbackText="No expenses registed for the past 7 days"
+          />
+        ))}
+      </ScrollView>
+      <AnimatedFAB
+        icon={"cash-register"}
+        label={"New Expense  "}
+        uppercase={false}
+        extended={isExtended}
+        onPress={() => navigation.navigate(ManageExpense)}
+        onLongPress={() => console.log("Long Pressed")}
+        visible={visible}
+        animateFrom={"right"}
+        iconMode={"static"}
+        style={[styles.fabStyle, style, fabStyle]}
       />
-    </View>
+    </SafeAreaView>
   );
-}
+};
 
 export default RecentExpenses;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: GlobalStyles.colors.base,
-    flex: 1,
+    flexGrow: 1,
+  },
+  fabStyle: {
+    bottom: 16,
+    right: 16,
+    position: "absolute",
   },
 });
