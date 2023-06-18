@@ -30,10 +30,13 @@ const ManageExpense = ({ route, navigation }) => {
   async function deleteExpenseHandler() {
     setIsSubmitting(true);
     try {
+      console.log("Attempting Delete");
       await deleteExpense(editedExpenseId);
       expensesCtx.deleteExpense(editedExpenseId);
+      console.log("Delete Successful");
       navigation.goBack();
     } catch (error) {
+      console.log(error);
       setError("Could not delete expense - please try again later.");
     }
     setIsSubmitting(false);
