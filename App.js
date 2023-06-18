@@ -1,3 +1,4 @@
+import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
@@ -16,6 +17,21 @@ import ExpensesContextProvider from "./store/expenses-context";
 
 import * as Notifications from "expo-notifications";
 import IconButton from "./components/UI/IconButton";
+
+import {
+  MD3DarkTheme as DefaultTheme,
+  MD3LightTheme as LightTheme,
+  PaperProvider,
+} from "react-native-paper";
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "tomato",
+    secondary: "yellow",
+  },
+};
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -109,7 +125,7 @@ const ExpensesOverview = () => {
 
 export default function App() {
   return (
-    <>
+    <PaperProvider theme={theme}>
       <ExpensesContextProvider>
         <StatusBar style="light" />
         <NavigationContainer>
@@ -139,7 +155,7 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
       </ExpensesContextProvider>
-    </>
+    </PaperProvider>
   );
 }
 

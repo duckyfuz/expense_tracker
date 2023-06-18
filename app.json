@@ -11,17 +11,21 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "buildNumber": "1.0.0",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kenf.expenses"
     },
     "android": {
       "adaptiveIcon": {
         "versionCode": "1",
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.kenf.expenses"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,6 +37,11 @@
           "color": "#ffffff"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "cfe505f3-4c80-45ab-80f8-5c579726adf8"
+      }
+    }
   }
 }
