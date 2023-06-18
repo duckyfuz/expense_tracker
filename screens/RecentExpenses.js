@@ -74,13 +74,11 @@ const RecentExpenses = ({ visible, animateFrom, style }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView onScroll={onScroll}>
-        {[...new Array(1).keys()].map((_, i) => (
-          <ExpensesOutput
-            expenses={recentExpenses}
-            expensesPeriod="Last 7 Days"
-            fallbackText="No expenses registed for the past 7 days"
-          />
-        ))}
+        <ExpensesOutput
+          expenses={recentExpenses}
+          expensesPeriod="Last 7 Days"
+          fallbackText="No expenses registed for the past 7 days"
+        />
       </ScrollView>
       <AnimatedFAB
         icon={"cash-register"}
