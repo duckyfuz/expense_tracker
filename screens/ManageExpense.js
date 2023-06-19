@@ -1,5 +1,12 @@
-import { useContext, useLayoutEffect, useState } from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import {
+  useContext,
+  useLayoutEffect,
+  useState,
+  SafeAreaView,
+  useCallback,
+} from "react";
+import { View, StyleSheet } from "react-native";
+
 import { GlobalStyles } from "../constants/styles";
 import CustButton from "../components/UI/CustButton";
 import { ExpensesContext } from "../store/expenses-context";
@@ -75,6 +82,8 @@ const ManageExpense = ({ route, navigation }) => {
     <LoadingOverlay />;
   }
 
+  
+
   return (
     <View style={styles.container}>
       <ExpenseForm
@@ -103,7 +112,6 @@ const styles = StyleSheet.create({
     padding: 12,
     backgroundColor: GlobalStyles.colors.base,
   },
-
   deleteContainer: {
     marginTop: 16,
     paddingTop: 8,

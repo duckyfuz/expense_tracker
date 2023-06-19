@@ -5,6 +5,10 @@ import { useState } from "react";
 import CustButton from "../UI/CustButton";
 import { getFormattedDate } from "../../util/date";
 
+import { DatePickerInput } from "react-native-paper-dates";
+import { Button } from "react-native-paper";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
 const ExpenseForm = ({
   submitButtonLabel,
   onCancel,
@@ -69,6 +73,9 @@ const ExpenseForm = ({
     !inputs.date.isValid ||
     !inputs.description.isValid;
 
+  // Date & time items
+  const [inputDate, setInputDate] = useState(undefined);
+
   return (
     <View style={styles.form}>
       <Text style={styles.title}>Your Expense</Text>
@@ -83,7 +90,7 @@ const ExpenseForm = ({
             value: inputs.amount.value,
           }}
         />
-        <Input
+        {/* <Input
           style={styles.rowInput}
           label="Date"
           invalid={!inputs.date.isValid}
@@ -93,6 +100,13 @@ const ExpenseForm = ({
             onChangeText: inputChangedHandler.bind(this, "date"),
             value: inputs.date.value,
           }}
+        /> */}
+        <DatePickerInput
+          locale="en"
+          label=""
+          value={inputDate}
+          onChange={(d) => setInputDate(d)}
+          inputMode="start"
         />
       </View>
       <Input

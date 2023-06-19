@@ -92,7 +92,7 @@ const ExpensesOverview = () => {
 
   const renderScene = BottomNavigation.SceneMap({
     expenses: RecentExpenses,
-    report: AllExpenses,
+    report: NullComponent,
     budgets: NullComponent,
     settings: NullComponent,
   });

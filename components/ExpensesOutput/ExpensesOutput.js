@@ -1,10 +1,10 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 
 import ExpensesSummary from "./ExpensesSummary";
 import ExpensesList from "./ExpensesList";
 import { GlobalStyles } from "../../constants/styles";
 
-const ExpensesOutput = ({ expenses, expensesPeriod, fallbackText }) => {
+const ExpensesOutput = ({ expenses, expensesPeriod, fallbackText, onScroll }) => {
   let content = <Text style={styles.infoText}>{fallbackText}</Text>;
 
   if (expenses.length > 0) {
@@ -14,7 +14,7 @@ const ExpensesOutput = ({ expenses, expensesPeriod, fallbackText }) => {
   return (
     <View style={styles.container}>
       <ExpensesSummary expenses={expenses} periodName={expensesPeriod} />
-      {content}
+      <ScrollView onScroll={onScroll}>{content}</ScrollView>
     </View>
   );
 };

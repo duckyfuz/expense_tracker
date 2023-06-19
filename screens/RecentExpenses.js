@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, Platform, ScrollView, SafeAreaView } from "react-native";
+import { StyleSheet, Platform, SafeAreaView } from "react-native";
 import { AnimatedFAB } from "react-native-paper";
 
 import { useNavigation } from "@react-navigation/native";
@@ -73,13 +73,12 @@ const RecentExpenses = ({ visible, animateFrom, style }) => {
   // Rendering...
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView onScroll={onScroll}>
-        <ExpensesOutput
-          expenses={recentExpenses}
-          expensesPeriod="Last 7 Days"
-          fallbackText="No expenses registed for the past 7 days"
-        />
-      </ScrollView>
+      <ExpensesOutput
+        expenses={recentExpenses}
+        expensesPeriod="Last 7 Days"
+        fallbackText="No expenses registed for the past 7 days"
+        onScroll={onScroll}
+      />
       <AnimatedFAB
         icon={"cash-register"}
         label={"New Expense  "}
