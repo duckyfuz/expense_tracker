@@ -1,13 +1,11 @@
-import { View, Text, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Input from "./Input";
 import { GlobalStyles } from "../../constants/styles";
 import { useState } from "react";
 import CustButton from "../UI/CustButton";
 import { getFormattedDate } from "../../util/date";
 
-import { DatePickerInput } from "react-native-paper-dates";
-import { Button } from "react-native-paper";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { TextInput, Text, Button } from "react-native-paper";
 
 const ExpenseForm = ({
   submitButtonLabel,
@@ -15,13 +13,17 @@ const ExpenseForm = ({
   onSubmit,
   defaultValues,
 }) => {
+  const currentDate = new Date();
+
   const [inputs, setInputs] = useState({
     amount: {
       value: defaultValues ? defaultValues.amount.toString() : "",
       isValid: true,
     },
     date: {
-      value: defaultValues ? getFormattedDate(defaultValues.date) : "",
+      value: defaultValues
+        ? getFormattedDate(defaultValues.date)
+        : getFormattedDate(currentDate),
       isValid: true,
     },
     description: {
@@ -73,65 +75,53 @@ const ExpenseForm = ({
     !inputs.date.isValid ||
     !inputs.description.isValid;
 
-  // Date & time items
-  const [inputDate, setInputDate] = useState(undefined);
-
   return (
     <View style={styles.form}>
-      <Text style={styles.title}>Your Expense</Text>
       <View style={styles.inputsRows}>
-        <Input
+        <TextInput
           style={styles.rowInput}
+          mode="outlined"
           label="Amount"
+          placeholder="How much?"
           invalid={!inputs.amount.isValid}
-          textInputConfig={{
-            keyboardType: "decimal-pad",
-            onChangeText: inputChangedHandler.bind(this, "amount"),
-            value: inputs.amount.value,
-          }}
+          onChangeText={inputChangedHandler.bind(this, "amount")}
+          value={inputs.amount.value}
         />
-        {/* <Input
+        <TextInput
           style={styles.rowInput}
+          mode="outlined"
           label="Date"
+          placeholder="YYYY-MM-DD"
           invalid={!inputs.date.isValid}
-          textInputConfig={{
-            placeholder: "YYYY-MM-DD",
-            maxLength: 10,
-            onChangeText: inputChangedHandler.bind(this, "date"),
-            value: inputs.date.value,
-          }}
-        /> */}
-        <DatePickerInput
-          locale="en"
-          label=""
-          value={inputDate}
-          onChange={(d) => setInputDate(d)}
-          inputMode="start"
+          onChangeText={inputChangedHandler.bind(this, "date")}
+          value={inputs.date.value}
         />
       </View>
-      <Input
-        label="Description"
-        invalid={!inputs.description.isValid}
-        textInputConfig={{
-          multiline: true,
-          autoCorrect: false,
-          autoCapitalize: "none",
-          onChangeText: inputChangedHandler.bind(this, "description"),
-          value: inputs.description.value,
-        }}
-      />
+      <View style={styles.inputsRows}>
+        <TextInput
+          style={styles.rowInput}
+          mode="outlined"
+          label="Description"
+          placeholder="What did you spend on?"
+          autoCorrect={false}
+          autoCapitalize="none"
+          invalid={!inputs.description.isValid}
+          onChangeText={inputChangedHandler.bind(this, "description")}
+          value={inputs.description.value}
+        />
+      </View>
       {formIsInvalid && (
         <Text style={styles.errorText}>
           Invalid input values! Please check your entered data
         </Text>
       )}
       <View style={styles.buttons}>
-        <CustButton style={styles.button} mode="flat" onPress={onCancel}>
+        <Button mode="elevated" style={styles.button} onPress={onCancel}>
           Cancel
-        </CustButton>
-        <CustButton style={styles.button} onPress={submitHandler}>
+        </Button>
+        <Button mode="contained" style={styles.button} onPress={submitHandler}>
           {submitButtonLabel}
-        </CustButton>
+        </Button>
       </View>
     </View>
   );
@@ -140,12 +130,14 @@ const ExpenseForm = ({
 export default ExpenseForm;
 
 const styles = StyleSheet.create({
-  form: { marginTop: 80 },
+  form: { marginTop: 20 },
   inputsRows: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
   },
-  rowInput: { flex: 1 },
+  rowInput: { flex: 1, margin: 5 },
   title: {
     fontSize: 28,
     fontWeight: "bold",
@@ -155,9 +147,9 @@ const styles = StyleSheet.create({
   },
   errorText: {
     textAlign: "center",
-    margin: 8,
+    marginTop: 15,
     color: GlobalStyles.colors.error,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   buttons: {
     flexDirection: "row",
@@ -165,7 +157,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    minWidth: 120,
-    marginHorizontal: 8,
+    marginHorizontal: 16,
+    marginTop: 10,
   },
 });

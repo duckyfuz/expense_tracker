@@ -1,4 +1,5 @@
-import { Pressable, View, Text, StyleSheet } from "react-native";
+import { Pressable, View, StyleSheet } from "react-native";
+import { Card, Text } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
 import { GlobalStyles } from "../../constants/styles";
@@ -16,17 +17,21 @@ const ExpenseItem = ({ id, description, amount, date }) => {
       onPress={expensePressHandler}
       style={({ pressed }) => pressed && styles.pressed}
     >
-      <View style={styles.expenseItem}>
-        <View>
-          <Text style={[styles.textBase, styles.description]}>
-            {description}
-          </Text>
-          <Text style={styles.textBase}>{getFormattedDate(date)}</Text>
+      <Card style={{ marginVertical: 2 }}>
+        <View style={styles.expenseItem}>
+          <View>
+            <Text style={[styles.textBase, styles.description]}>
+              {description}
+            </Text>
+            <Text style={styles.textBase}>{getFormattedDate(date)}</Text>
+          </View>
+          <Card mode="outlined" style={styles.amountContainer}>
+            {/* <View style={styles.amountContainer}> */}
+            <Text style={styles.amount}>${amount.toFixed(2)}</Text>
+            {/* </View> */}
+          </Card>
         </View>
-        <View style={styles.amountContainer}>
-          <Text style={styles.amount}>{amount.toFixed(2)}</Text>
-        </View>
-      </View>
+      </Card>
     </Pressable>
   );
 };
@@ -38,17 +43,17 @@ const styles = StyleSheet.create({
     opacity: 0.75,
   },
   expenseItem: {
-    padding: 12,
-    marginVertical: 8,
-    backgroundColor: GlobalStyles.colors.card,
+    padding: 6,
+    // marginVertical: 8,
+    // backgroundColor: GlobalStyles.colors.card,
     flexDirection: "row",
     justifyContent: "space-between",
-    borderRadius: 6,
-    elevation: 3,
-    shadowColor: "grey",
-    shadowRadius: 4,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4,
+    // borderRadius: 6,
+    // elevation: 3,
+    // shadowColor: "grey",
+    // shadowRadius: 4,
+    // shadowOffset: { width: 1, height: 1 },
+    // shadowOpacity: 0.4,
   },
   textBase: {
     color: GlobalStyles.colors.onBackground,
@@ -59,16 +64,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   amountContainer: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    backgroundColor: GlobalStyles.colors.secondary,
-    justifyContent: "center",
+    // paddingHorizontal: 12,
+    // paddingVertical: 4,
+    // backgroundColor: GlobalStyles.colors.secondary,
+    // justifyContent: "center",
     alignItems: "center",
-    borderRadius: 4,
+    justifyContent: "center",
+    // borderRadius: 4,
     minWidth: 80,
+    height: "100%",
   },
   amount: {
-    color: GlobalStyles.colors.onBackground,
+    // color: GlobalStyles.colors.onBackground,
     fontWeight: "bold",
   },
 });

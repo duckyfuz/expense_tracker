@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, FlatList, SafeAreaView } from "react-native";
 import ExpenseItem from "./ExpenseItem";
 
 function renderExpenseItem(itemData) {
@@ -7,13 +7,16 @@ function renderExpenseItem(itemData) {
 
 const ExpensesList = ({ expenses }) => {
   return (
-    <View style={{ flex: 1 }}>
-      <FlatList
-        data={expenses}
-        renderItem={renderExpenseItem}
-        keyExtractor={(item) => item.id}
-      />
-    </View>
+    <SafeAreaView>
+      <View style={{ marginTop: 6, flex: 1 }}>
+        <FlatList
+          scrollEnabled={false}
+          data={expenses}
+          renderItem={renderExpenseItem}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 

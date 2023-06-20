@@ -3,8 +3,14 @@ import { Text, View, StyleSheet, ScrollView } from "react-native";
 import ExpensesSummary from "./ExpensesSummary";
 import ExpensesList from "./ExpensesList";
 import { GlobalStyles } from "../../constants/styles";
+import { Divider } from "react-native-paper";
 
-const ExpensesOutput = ({ expenses, expensesPeriod, fallbackText, onScroll }) => {
+const ExpensesOutput = ({
+  expenses,
+  expensesPeriod,
+  fallbackText,
+  onScroll,
+}) => {
   let content = <Text style={styles.infoText}>{fallbackText}</Text>;
 
   if (expenses.length > 0) {
@@ -14,7 +20,12 @@ const ExpensesOutput = ({ expenses, expensesPeriod, fallbackText, onScroll }) =>
   return (
     <View style={styles.container}>
       <ExpensesSummary expenses={expenses} periodName={expensesPeriod} />
-      <ScrollView onScroll={onScroll}>{content}</ScrollView>
+      <View style={{ marginTop: 6 }}>
+        <Divider bold={true} />
+      </View>
+      <ScrollView onScroll={onScroll} scrollEventThrottle={16}>
+        {content}
+      </ScrollView>
     </View>
   );
 };

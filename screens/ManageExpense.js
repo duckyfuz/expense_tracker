@@ -1,10 +1,4 @@
-import {
-  useContext,
-  useLayoutEffect,
-  useState,
-  SafeAreaView,
-  useCallback,
-} from "react";
+import { useContext, useLayoutEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 
 import { GlobalStyles } from "../constants/styles";
@@ -14,6 +8,7 @@ import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 import { deleteExpense, storeExpense, updateExpense } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+import { Button, Divider } from "react-native-paper";
 
 const ManageExpense = ({ route, navigation }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,7 +16,7 @@ const ManageExpense = ({ route, navigation }) => {
 
   const expensesCtx = useContext(ExpensesContext);
 
-  const editedExpenseId = route.params?.expenseId; // the ? checks if expenseId exists, else return undefined
+  const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
 
   const selectedExpense = expensesCtx.expenses.find(
@@ -30,7 +25,7 @@ const ManageExpense = ({ route, navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: isEditing ? "Edit Expense" : "Add Expense",
+      title: isEditing ? "Edit Expense" : "New Expense",
     });
   }, [navigation, isEditing]);
 
@@ -82,8 +77,6 @@ const ManageExpense = ({ route, navigation }) => {
     <LoadingOverlay />;
   }
 
-  
-
   return (
     <View style={styles.container}>
       <ExpenseForm
@@ -94,10 +87,21 @@ const ManageExpense = ({ route, navigation }) => {
       />
 
       {isEditing && (
-        <View style={styles.deleteContainer}>
-          <CustButton onPress={deleteExpenseHandler} style={styles.button}>
-            Delete
-          </CustButton>
+        <View>
+          <Divider
+            horizontalInset={true}
+            bold={true}
+            style={{ marginTop: 20 }}
+          />
+          <View style={styles.deleteContainer}>
+            <Button
+              onPress={deleteExpenseHandler}
+              mode="contained"
+              buttonColor="#a81616"
+            >
+              Delete
+            </Button>
+          </View>
         </View>
       )}
     </View>
@@ -110,13 +114,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 12,
-    backgroundColor: GlobalStyles.colors.base,
+    // backgroundColor: GlobalStyles.colors.base,
   },
   deleteContainer: {
-    marginTop: 16,
+    marginTop: 6,
     paddingTop: 8,
-    borderTopWidth: 2,
-    borderTopColor: GlobalStyles.colors.error,
     alignItems: "center",
   },
   button: {

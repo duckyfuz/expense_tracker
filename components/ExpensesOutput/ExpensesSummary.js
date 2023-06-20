@@ -16,7 +16,7 @@ const ExpensesSummary = ({ expenses, periodName }) => {
           ${expensesSum.toFixed(2)}
         </Text>
       </Card.Content>
-      <Divider style={{ margin: 6 }} />
+      <Divider style={{ marginVertical: 6 }} horizontalInset={true} />
       <Card.Content style={styles.container}>
         <Text variant="titleMedium" style={{ fontWeight: "bold" }}>
           Budget

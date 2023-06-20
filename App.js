@@ -17,9 +17,6 @@ import {
 import merge from "deepmerge";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import IconButton from "./components/UI/IconButton";
-// import { Ionicons } from "@expo/vector-icons";
 
 import ExpensesContextProvider from "./store/expenses-context";
 import * as Notifications from "expo-notifications";
@@ -189,14 +186,10 @@ export default function App() {
           <Stack.Navigator
             screenOptions={{
               tabBarShowLabel: false,
-              headerStyle: { backgroundColor: GlobalStyles.colors.background },
-              headerTintColor: GlobalStyles.colors.onBackground,
-              tabBarStyle: {
-                ...styles.tabBar,
-                ...styles.shadow,
-              },
-              tabBarActiveTintColor: GlobalStyles.colors.secondary,
-              headerShadowVisible: false,
+              // headerStyle: { backgroundColor: GlobalStyles.colors.background },
+              // headerTintColor: GlobalStyles.colors.onBackground,
+              // tabBarActiveTintColor: GlobalStyles.colors.secondary,
+              // headerShadowVisible: false,
             }}
           >
             <Stack.Group>
@@ -241,13 +234,6 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 15,
     elevation: 0,
-  },
-  shadow: {
-    shadowColor: "#121212",
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.5,
-    elevation: 5,
   },
   tabBarIcon: {
     alignItems: "center",
