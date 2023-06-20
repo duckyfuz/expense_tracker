@@ -11,18 +11,18 @@ function MonthsNav({
   month: any;
 }) {
   const monthList = [
-    "January",
-    "February",
-    "March",
-    "April",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
     "May",
     "June",
     "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
   return (
@@ -37,7 +37,7 @@ function MonthsNav({
         <Card style={{ margin: 6, padding: 10 }}>
           <View
             style={{
-              minWidth: 80,
+              minWidth: 40,
               justifyContent: "center",
               alignItems: "center",
             }}
