@@ -6,6 +6,8 @@ import {
   StyleSheet,
   useWindowDimensions,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 
 import { ExpensesContext } from "../store/expenses-context";
@@ -91,67 +93,69 @@ const ManageExpense = ({ route, navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Pressable
-          style={[
-            StyleSheet.absoluteFill,
-            { backgroundColor: "rgba(0, 0, 0, 0.5)" },
-          ]}
-          onPress={navigation.goBack}
-        />
-
-        <Animated.View
-          style={[
-            {
-              height: height,
-              transform: [
-                {
-                  translateY: current.progress.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [height, height * 0.5],
-                    extrapolate: "clamp",
-                  }),
-                },
-              ],
-            },
-            styles.viewAnimated,
-          ]}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          <View style={[styles.container]}>
-            <ExpenseForm
-              submitButtonLabel={isEditing ? "Update" : "Add"}
-              onCancel={cancelHandler}
-              onSubmit={confirmHandler}
-              defaultValues={selectedExpense}
-            />
+          <Pressable
+            style={[
+              StyleSheet.absoluteFill,
+              { backgroundColor: "rgba(0, 0, 0, 0.5)" },
+            ]}
+            onPress={navigation.goBack}
+          />
 
-            {isEditing && (
-              <View>
-                <Divider
-                  horizontalInset={true}
-                  bold={true}
-                  style={{ marginTop: 20 }}
-                />
-                <View style={styles.deleteContainer}>
-                  <Button
-                    onPress={deleteExpenseHandler}
-                    mode="contained"
-                    buttonColor="#a81616"
-                  >
-                    Delete
-                  </Button>
+          <Animated.View
+            style={[
+              {
+                height: height,
+                transform: [
+                  {
+                    translateY: current.progress.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [height, height * 0.5],
+                      extrapolate: "clamp",
+                    }),
+                  },
+                ],
+              },
+              styles.viewAnimated,
+            ]}
+          >
+            <View style={[styles.container]}>
+              <ExpenseForm
+                submitButtonLabel={isEditing ? "Update" : "Add"}
+                onCancel={cancelHandler}
+                onSubmit={confirmHandler}
+                defaultValues={selectedExpense}
+              />
+
+              {isEditing && (
+                <View>
+                  <Divider
+                    horizontalInset={true}
+                    bold={true}
+                    style={{ marginTop: 20 }}
+                  />
+                  <View style={styles.deleteContainer}>
+                    <Button
+                      onPress={deleteExpenseHandler}
+                      mode="contained"
+                      buttonColor="#a81616"
+                    >
+                      Delete
+                    </Button>
+                  </View>
                 </View>
-              </View>
-            )}
-          </View>
-        </Animated.View>
-      </View>
+              )}
+            </View>
+          </Animated.View>
+        </View>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 };
