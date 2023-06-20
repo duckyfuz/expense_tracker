@@ -81,7 +81,7 @@ const RecentExpenses = ({ visible, animateFrom, style }) => {
         onScroll={onScroll}
         previousMonth={previousMonth}
         nextMonth={nextMonth}
-        month
+        month={month}
       />
       <AnimatedFAB
         icon={"cash-register"}

@@ -4,10 +4,27 @@ import { Card, IconButton, Text } from "react-native-paper";
 function MonthsNav({
   previousMonth,
   nextMonth,
+  month,
 }: {
   previousMonth: any;
   nextMonth: any;
+  month: any;
 }) {
+  const monthList = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   return (
     <View style={styles.container}>
       <View style={styles.monthContainer}>
@@ -20,13 +37,13 @@ function MonthsNav({
         <Card style={{ margin: 6, padding: 10 }}>
           <View
             style={{
-              minWidth: 60,
+              minWidth: 80,
               justifyContent: "center",
               alignItems: "center",
             }}
           >
             <Text variant="titleSmall" style={{ fontWeight: "bold" }}>
-              Month
+              {monthList[Number(month) - 1]}
             </Text>
           </View>
         </Card>

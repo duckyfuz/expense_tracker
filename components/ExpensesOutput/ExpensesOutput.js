@@ -13,6 +13,7 @@ const ExpensesOutput = ({
   onScroll,
   previousMonth,
   nextMonth,
+  month,
 }) => {
   let content = <Text style={styles.infoText}>{fallbackText}</Text>;
 
@@ -23,7 +24,11 @@ const ExpensesOutput = ({
   return (
     <View style={styles.container}>
       <ExpensesSummary expenses={expenses} periodName={expensesPeriod} />
-      <MonthsNav previousMonth={previousMonth} nextMonth={nextMonth} month />
+      <MonthsNav
+        previousMonth={previousMonth}
+        nextMonth={nextMonth}
+        month={month}
+      />
       <View>
         <Divider bold={true} />
       </View>

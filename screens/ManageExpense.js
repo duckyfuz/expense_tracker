@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 12,
-    backgroundColor: "teal",
+    backgroundColor: "rgb(37, 35, 42)",
     borderRadius: 20,
   },
   deleteContainer: {
@@ -179,11 +179,5 @@ const styles = StyleSheet.create({
     minWidth: 120,
     marginHorizontal: 8,
     marginVertical: 12,
-  },
-  viewContainer: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: "#E5E5E5",
-    borderRadius: 20,
   },
 });
