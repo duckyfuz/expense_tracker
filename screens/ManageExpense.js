@@ -1,16 +1,25 @@
 import { useContext, useLayoutEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import {
+  Pressable,
+  Animated,
+  View,
+  StyleSheet,
+  useWindowDimensions,
+  KeyboardAvoidingView,
+} from "react-native";
 
-import { GlobalStyles } from "../constants/styles";
-import CustButton from "../components/UI/CustButton";
 import { ExpensesContext } from "../store/expenses-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 import { deleteExpense, storeExpense, updateExpense } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+import { useCardAnimation } from "@react-navigation/stack";
 import { Button, Divider } from "react-native-paper";
 
 const ManageExpense = ({ route, navigation }) => {
+  const { height } = useWindowDimensions();
+  const { current } = useCardAnimation();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState();
 
@@ -78,33 +87,72 @@ const ManageExpense = ({ route, navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <ExpenseForm
-        submitButtonLabel={isEditing ? "Update" : "Add"}
-        onCancel={cancelHandler}
-        onSubmit={confirmHandler}
-        defaultValues={selectedExpense}
-      />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Pressable
+          style={[
+            StyleSheet.absoluteFill,
+            { backgroundColor: "rgba(0, 0, 0, 0.5)" },
+          ]}
+          onPress={navigation.goBack}
+        />
 
-      {isEditing && (
-        <View>
-          <Divider
-            horizontalInset={true}
-            bold={true}
-            style={{ marginTop: 20 }}
-          />
-          <View style={styles.deleteContainer}>
-            <Button
-              onPress={deleteExpenseHandler}
-              mode="contained"
-              buttonColor="#a81616"
-            >
-              Delete
-            </Button>
+        <Animated.View
+          style={[
+            {
+              height: height,
+              transform: [
+                {
+                  translateY: current.progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [height, height * 0.5],
+                    extrapolate: "clamp",
+                  }),
+                },
+              ],
+            },
+            styles.viewAnimated,
+          ]}
+        >
+          <View style={[styles.container]}>
+            <ExpenseForm
+              submitButtonLabel={isEditing ? "Update" : "Add"}
+              onCancel={cancelHandler}
+              onSubmit={confirmHandler}
+              defaultValues={selectedExpense}
+            />
+
+            {isEditing && (
+              <View>
+                <Divider
+                  horizontalInset={true}
+                  bold={true}
+                  style={{ marginTop: 20 }}
+                />
+                <View style={styles.deleteContainer}>
+                  <Button
+                    onPress={deleteExpenseHandler}
+                    mode="contained"
+                    buttonColor="#a81616"
+                  >
+                    Delete
+                  </Button>
+                </View>
+              </View>
+            )}
           </View>
-        </View>
-      )}
-    </View>
+        </Animated.View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -114,7 +162,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 12,
-    // backgroundColor: GlobalStyles.colors.base,
+    backgroundColor: "teal",
+    borderRadius: 20,
   },
   deleteContainer: {
     marginTop: 6,
@@ -125,5 +174,14 @@ const styles = StyleSheet.create({
     minWidth: 120,
     marginHorizontal: 8,
     marginVertical: 12,
+  },
+  viewAnimated: {
+    width: "100%",
+  },
+  viewContainer: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: "#E5E5E5",
+    borderRadius: 20,
   },
 });

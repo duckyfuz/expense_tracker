@@ -16,12 +16,11 @@ import {
 } from "react-native-paper";
 import merge from "deepmerge";
 
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 
 import ExpensesContextProvider from "./store/expenses-context";
 import * as Notifications from "expo-notifications";
 
-import AllExpenses from "./screens/AllExpenses";
 import ManageExpense from "./screens/ManageExpense";
 import RecentExpenses from "./screens/RecentExpenses";
 
@@ -31,9 +30,10 @@ const { LightTheme, DarkTheme } = adaptNavigationTheme({
   reactNavigationLight: NavigationDefaultTheme,
   reactNavigationDark: NavigationDarkTheme,
 });
-
-const CombinedDefaultTheme = merge(MD3LightTheme, LightTheme);
-const CombinedDarkTheme = merge(MD3DarkTheme, DarkTheme);
+const { CombinedLightTheme, CombinedDarkTheme } = {
+  CombinedLightTheme: merge(MD3LightTheme, LightTheme),
+  CombinedDarkTheme: merge(MD3DarkTheme, DarkTheme),
+};
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -43,8 +43,21 @@ Notifications.setNotificationHandler({
   }),
 });
 
-const Stack = createNativeStackNavigator();
-// const Tab = createBottomTabNavigator();
+async function scheduleNotificationHandler() {
+  console.log("notification schedued");
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "🚨🚨🚨 TIME TO RECORD YOUR EXPENSES 🚨🚨🚨",
+      body: "Record your expenses now!!!",
+    },
+    trigger: {
+      seconds: 5,
+    },
+  });
+  console.log("notification sent");
+}
+
+const Stack = createStackNavigator();
 
 function NullComponent() {
   return (
@@ -101,80 +114,6 @@ const ExpensesOverview = () => {
       renderScene={renderScene}
     />
   );
-
-  // Previous implementation - floating bottomTab with large center button
-  // return (
-  //   <Tab.Navigator
-  //     screenOptions={{
-  //       tabBarShowLabel: false,
-  //       headerStyle: { backgroundColor: GlobalStyles.colors.background },
-  //       headerTintColor: GlobalStyles.colors.onBackground,
-  //       tabBarStyle: {
-  //         ...styles.tabBar,
-  //         ...styles.shadow,
-  //       },
-  //       tabBarActiveTintColor: GlobalStyles.colors.secondary,
-  //       headerShadowVisible: false,
-  //     }}
-  //   >
-  //     <Tab.Screen
-  //       name="RecentExpenses"
-  //       component={RecentExpenses}
-  //       options={{
-  //         headerRight: () => (
-  //           <IconButton
-  //             icon="save"
-  //             size={24}
-  //             color={GlobalStyles.colors.secondary}
-  //             onPress={scheduleNotificationHandler}
-  //             additionalStyle={{ marginRight: 12 }}
-  //           />
-  //         ),
-  //         title: "Recent Expenses",
-  //         tabBarLabel: "Recent",
-  //         tabBarIcon: ({ color, size }) => (
-  //           <View style={styles.tabBarIcon}>
-  //             <Ionicons name="hourglass" size={size} color={color} />
-  //           </View>
-  //         ),
-  //       }}
-  //     />
-  //     <Tab.Screen
-  //       name="Add"
-  //       component={NullComponent}
-  //       options={{
-  //         tabBarIcon: ({ focused, size, color }) => (
-  //           <View style={styles.tabBarIconCenter}>
-  //             <Ionicons
-  //               name="add-circle"
-  //               size={100}
-  //               color={GlobalStyles.colors.primaryVariant}
-  //             />
-  //           </View>
-  //         ),
-  //       }}
-  //       listeners={({ navigation }) => ({
-  //         tabPress: (e) => {
-  //           e.preventDefault();
-  //           navigation.navigate("ManageExpense");
-  //         },
-  //       })}
-  //     />
-  //     <Tab.Screen
-  //       name="AllExpenses"
-  //       component={AllExpenses}
-  //       options={{
-  //         title: "All Expenses",
-  //         tabBarLabel: "All Expenses",
-  //         tabBarIcon: ({ color, size }) => (
-  //           <View style={[styles.tabBarIcon, styles.shadow]}>
-  //             <Ionicons name="calendar" size={size} color={color} />
-  //           </View>
-  //         ),
-  //       }}
-  //     />
-  //   </Tab.Navigator>
-  // );
 };
 
 export default function App() {
@@ -183,44 +122,28 @@ export default function App() {
       <ExpensesContextProvider>
         <StatusBar style="light" />
         <NavigationContainer theme={CombinedDarkTheme}>
-          <Stack.Navigator
-            screenOptions={{
-              tabBarShowLabel: false,
-              // headerStyle: { backgroundColor: GlobalStyles.colors.background },
-              // headerTintColor: GlobalStyles.colors.onBackground,
-              // tabBarActiveTintColor: GlobalStyles.colors.secondary,
-              // headerShadowVisible: false,
-            }}
-          >
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Group>
               <Stack.Screen
                 name="Expenses Overview"
                 component={ExpensesOverview}
-                options={{ headerShown: false }}
               />
             </Stack.Group>
-            <Stack.Group screenOptions={{ presentation: "modal" }}>
-              <Stack.Screen name="ManageExpense" component={ManageExpense} />
+            <Stack.Group
+              screenOptions={{
+                presentation: "transparentModal",
+              }}
+            >
+              <Stack.Screen
+                name="ManageExpense"
+                component={ManageExpense}
+              />
             </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>
       </ExpensesContextProvider>
     </PaperProvider>
   );
-}
-
-async function scheduleNotificationHandler() {
-  console.log("notification schedued");
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "🚨🚨🚨 TIME TO RECORD YOUR EXPENSES 🚨🚨🚨",
-      body: "Record your expenses now!!!",
-    },
-    trigger: {
-      seconds: 5,
-    },
-  });
-  console.log("notification sent");
 }
 
 const styles = StyleSheet.create({
