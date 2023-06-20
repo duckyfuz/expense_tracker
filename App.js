@@ -30,7 +30,7 @@ const { LightTheme, DarkTheme } = adaptNavigationTheme({
   reactNavigationLight: NavigationDefaultTheme,
   reactNavigationDark: NavigationDarkTheme,
 });
-const { CombinedLightTheme, CombinedDarkTheme } = {
+export const { CombinedLightTheme, CombinedDarkTheme } = {
   CombinedLightTheme: merge(MD3LightTheme, LightTheme),
   CombinedDarkTheme: merge(MD3DarkTheme, DarkTheme),
 };

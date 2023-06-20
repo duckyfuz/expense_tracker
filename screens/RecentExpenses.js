@@ -17,26 +17,33 @@ import ManageExpense from "./ManageExpense";
 const RecentExpenses = ({ visible, animateFrom, style }) => {
   // Background work for the FAB
   const [isExtended, setIsExtended] = useState(true);
-
   const isIOS = Platform.OS === "ios";
-
   const onScroll = ({ nativeEvent }) => {
     const currentScrollPosition =
       Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
-
     setIsExtended(currentScrollPosition <= 0);
   };
-
   const fabStyle = { [animateFrom]: 16 };
 
-  // Calculations n stuff
+  // Creating states for loading and navigation & context for data
   const navigation = useNavigation();
-
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
-
   const expensesCtx = useContext(ExpensesContext);
+  const [month, setMonth] = useState(
+    (Number(new Date().getMonth()) + 1).toString().padStart(2, "0")
+  );
 
+  function previousMonth() {
+    updatedMonth = (Number(month) - 1).toString().padStart(2, "0");
+    setMonth(updatedMonth);
+  }
+  function nextMonth() {
+    updatedMonth = (Number(month) + 1).toString().padStart(2, "0");
+    setMonth(updatedMonth);
+  }
+
+  // This part loads the data from firebase and adds it to context, displays loading if loading, error if error
   useEffect(() => {
     async function getExpenses() {
       setIsLoading(true);
@@ -50,24 +57,18 @@ const RecentExpenses = ({ visible, animateFrom, style }) => {
     }
     getExpenses();
   }, []);
-
   function errorHander() {
     setError(null);
   }
-
   if (error && !isLoading) {
     return <ErrorOverlay message={error} onConfirm={errorHander} />;
   }
-
   if (isLoading) {
     return <LoadingOverlay />;
   }
-
+  // Then, this portion filters the entires by month
   const recentExpenses = expensesCtx.expenses.filter((expense) => {
-    const today = new Date();
-    const date7DaysAgo = getDateMinusDays(today, 7);
-
-    return expense.date >= date7DaysAgo && expense.date <= today;
+    return expense.date.toISOString().slice(5, 7) === month;
   });
 
   // Rendering...
@@ -78,6 +79,9 @@ const RecentExpenses = ({ visible, animateFrom, style }) => {
         expensesPeriod="Last 7 Days"
         fallbackText="No expenses registed for the past 7 days"
         onScroll={onScroll}
+        previousMonth={previousMonth}
+        nextMonth={nextMonth}
+        month
       />
       <AnimatedFAB
         icon={"cash-register"}

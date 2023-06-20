@@ -85,6 +85,7 @@ const ExpenseForm = ({
           placeholder="How much?"
           invalid={!inputs.amount.isValid}
           onChangeText={inputChangedHandler.bind(this, "amount")}
+          keyboardType="numeric"
           value={inputs.amount.value}
         />
         <TextInput

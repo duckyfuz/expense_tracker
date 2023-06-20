@@ -19,10 +19,18 @@ const ExpensesSummary = ({ expenses, periodName }) => {
       <Divider style={{ marginVertical: 6 }} horizontalInset={true} />
       <Card.Content style={styles.container}>
         <Text variant="titleMedium" style={{ fontWeight: "bold" }}>
-          Budget
+          Total Budget:
         </Text>
         <Text variant="titleMedium" style={{ fontWeight: "bold" }}>
-          ${expensesSum.toFixed(2)}
+          $10
+        </Text>
+      </Card.Content>
+      <Card.Content style={styles.container}>
+        <Text variant="titleMedium" style={{ fontWeight: "bold" }}>
+          Net Balance:
+        </Text>
+        <Text variant="titleMedium" style={{ fontWeight: "bold" }}>
+          $10
         </Text>
       </Card.Content>
     </Card>
@@ -33,23 +41,8 @@ export default ExpensesSummary;
 
 const styles = StyleSheet.create({
   container: {
-    // padding: 8,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    // marginVertical: 6,
-    // borderBottomLeftRadius: 6,
-    // borderBottomRightRadius: 6,
-    // borderRadius: 6,
   },
-  // period: {
-  //   fontSize: 16,
-  //   fontWeight: "bold",
-  //   color: GlobalStyles.colors.onBackground,
-  // },
-  // sum: {
-  //   fontSize: 16,
-  //   fontWeight: "bold",
-  //   color: GlobalStyles.colors.onBackground,
-  // },
 });

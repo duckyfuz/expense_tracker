@@ -117,16 +117,17 @@ const ManageExpense = ({ route, navigation }) => {
                   {
                     translateY: current.progress.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [height, height * 0.5],
+                      outputRange: [height, height * 0.55],
                       extrapolate: "clamp",
                     }),
                   },
                 ],
               },
-              styles.viewAnimated,
+              { width: "100%" },
+              ,
             ]}
           >
-            <View style={[styles.container]}>
+            <View style={styles.container}>
               <ExpenseForm
                 submitButtonLabel={isEditing ? "Update" : "Add"}
                 onCancel={cancelHandler}
@@ -178,9 +179,6 @@ const styles = StyleSheet.create({
     minWidth: 120,
     marginHorizontal: 8,
     marginVertical: 12,
-  },
-  viewAnimated: {
-    width: "100%",
   },
   viewContainer: {
     flex: 1,

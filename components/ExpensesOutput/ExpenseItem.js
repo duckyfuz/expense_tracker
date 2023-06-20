@@ -20,15 +20,11 @@ const ExpenseItem = ({ id, description, amount, date }) => {
       <Card style={{ marginVertical: 2 }}>
         <View style={styles.expenseItem}>
           <View>
-            <Text style={[styles.textBase, styles.description]}>
-              {description}
-            </Text>
-            <Text style={styles.textBase}>{getFormattedDate(date)}</Text>
+            <Text variant="titleLarge">{description}</Text>
+            <Text variant="labelMedium">{getFormattedDate(date)}</Text>
           </View>
           <Card mode="outlined" style={styles.amountContainer}>
-            {/* <View style={styles.amountContainer}> */}
             <Text style={styles.amount}>${amount.toFixed(2)}</Text>
-            {/* </View> */}
           </Card>
         </View>
       </Card>
@@ -44,38 +40,17 @@ const styles = StyleSheet.create({
   },
   expenseItem: {
     padding: 6,
-    // marginVertical: 8,
-    // backgroundColor: GlobalStyles.colors.card,
     flexDirection: "row",
     justifyContent: "space-between",
-    // borderRadius: 6,
-    // elevation: 3,
-    // shadowColor: "grey",
-    // shadowRadius: 4,
-    // shadowOffset: { width: 1, height: 1 },
-    // shadowOpacity: 0.4,
-  },
-  textBase: {
-    color: GlobalStyles.colors.onBackground,
-  },
-  description: {
-    fontSize: 16,
-    marginBottom: 4,
-    fontWeight: "bold",
+    marginHorizontal: 5,
   },
   amountContainer: {
-    // paddingHorizontal: 12,
-    // paddingVertical: 4,
-    // backgroundColor: GlobalStyles.colors.secondary,
-    // justifyContent: "center",
     alignItems: "center",
     justifyContent: "center",
-    // borderRadius: 4,
     minWidth: 80,
     height: "100%",
   },
   amount: {
-    // color: GlobalStyles.colors.onBackground,
     fontWeight: "bold",
   },
 });
