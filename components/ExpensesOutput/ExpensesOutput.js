@@ -1,10 +1,15 @@
-import { Text, View, StyleSheet, ScrollView } from "react-native";
+import { useContext } from "react";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { Text, Divider } from "react-native-paper";
 
 import ExpensesSummary from "./ExpensesSummary";
 import ExpensesList from "./ExpensesList";
-import { GlobalStyles } from "../../constants/styles";
-import { Divider } from "react-native-paper";
+
 import MonthsNav from "./MonthsNav";
+
+import { LightContext } from "../../store/light-context";
+
+import { CombinedDarkTheme, CombinedLightTheme } from "../../constants/styles";
 
 const ExpensesOutput = ({
   expenses,
@@ -15,8 +20,24 @@ const ExpensesOutput = ({
   nextMonth,
   month,
 }) => {
-  let content = <Text style={styles.infoText}>{fallbackText}</Text>;
+  const { light } = useContext(LightContext);
 
+  // Set content to fallback text if there are no expenses recorded
+  let content = (
+    <Text
+      variant="titleMedium"
+      style={[
+        styles.infoText,
+        {
+          color: light
+            ? CombinedLightTheme.colors.error
+            : CombinedDarkTheme.colors.error,
+        },
+      ]}
+    >
+      {fallbackText}
+    </Text>
+  );
   if (expenses.length > 0) {
     content = <ExpensesList expenses={expenses} />;
   }
@@ -43,13 +64,10 @@ export default ExpensesOutput;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 8,
-    paddingVertical: 6,
     flex: 1,
+    paddingHorizontal: 8,
   },
   infoText: {
-    color: GlobalStyles.colors.onBackground,
-    fontSize: 16,
     textAlign: "center",
     marginTop: 10,
   },
