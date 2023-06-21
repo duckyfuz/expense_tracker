@@ -96,7 +96,13 @@ const ManageExpense = ({ route, navigation }) => {
       style={{ flex: 1 }}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <Pressable
             style={[
               StyleSheet.absoluteFill,
