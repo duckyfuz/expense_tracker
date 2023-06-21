@@ -43,7 +43,7 @@ function MonthsNav({
   return (
     <View style={styles.container}>
       <Direction back={true} />
-      <Card style={{ margin: 6, padding: 10 }}>
+      <Card style={{ margin: 6, paddingHorizontal: 12, paddingVertical: 6 }}>
         <View style={styles.monthContainer}>
           <Text variant="titleMedium" style={{ fontWeight: "bold" }}>
             {monthList[Number(month) - 1]}

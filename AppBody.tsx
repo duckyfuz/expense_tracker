@@ -12,6 +12,7 @@ import { LightContext } from "./store/light-context";
 import NullComponent from "./screens/NullComponent";
 import ManageExpense from "./screens/ManageExpense";
 import Expenses from "./screens/Expenses";
+import Budget from "./screens/Budget";
 import Settings from "./screens/Settings";
 
 import {
@@ -27,7 +28,6 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-
 async function scheduleNotificationHandler() {
   console.log("notification schedued");
   await Notifications.scheduleNotificationAsync({
@@ -76,7 +76,7 @@ const ExpensesOverview = () => {
   const renderScene = BottomNavigation.SceneMap({
     expenses: Expenses,
     report: NullComponent,
-    budgets: NullComponent,
+    budgets: Budget,
     settings: Settings,
   });
   return (
