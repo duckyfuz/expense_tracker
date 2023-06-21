@@ -16,7 +16,9 @@ import { deleteExpense, storeExpense, updateExpense } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
 import { useCardAnimation } from "@react-navigation/stack";
-import { Button, Divider } from "react-native-paper";
+import { Button, Card, Divider } from "react-native-paper";
+
+import { CombinedDarkTheme, CombinedLightTheme } from "../App";
 
 const ManageExpense = ({ route, navigation }) => {
   const { height } = useWindowDimensions();
@@ -94,13 +96,7 @@ const ManageExpense = ({ route, navigation }) => {
       style={{ flex: 1 }}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View
-          style={{
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        <View>
           <Pressable
             style={[
               StyleSheet.absoluteFill,
@@ -108,7 +104,6 @@ const ManageExpense = ({ route, navigation }) => {
             ]}
             onPress={navigation.goBack}
           />
-
           <Animated.View
             style={[
               {
@@ -124,36 +119,35 @@ const ManageExpense = ({ route, navigation }) => {
                 ],
               },
               { width: "100%" },
-              ,
             ]}
           >
-            <View style={styles.container}>
+            <Card style={{ height: "100%" }}>
               <ExpenseForm
                 submitButtonLabel={isEditing ? "Update" : "Add"}
                 onCancel={cancelHandler}
                 onSubmit={confirmHandler}
                 defaultValues={selectedExpense}
               />
-
               {isEditing && (
                 <View>
                   <Divider
                     horizontalInset={true}
                     bold={true}
-                    style={{ marginTop: 20 }}
+                    style={{ margin: 20 }}
                   />
-                  <View style={styles.deleteContainer}>
+                  <View style={{ alignItems: "center" }}>
                     <Button
                       onPress={deleteExpenseHandler}
-                      mode="contained"
-                      buttonColor="#a81616"
+                      mode="elevated"
+                      buttonColor={CombinedDarkTheme.colors.errorContainer}
+                      textColor={CombinedDarkTheme.colors.error}
                     >
                       Delete
                     </Button>
                   </View>
                 </View>
               )}
-            </View>
+            </Card>
           </Animated.View>
         </View>
       </TouchableWithoutFeedback>
@@ -164,17 +158,6 @@ const ManageExpense = ({ route, navigation }) => {
 export default ManageExpense;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 12,
-    backgroundColor: "rgb(37, 35, 42)",
-    borderRadius: 20,
-  },
-  deleteContainer: {
-    marginTop: 6,
-    paddingTop: 8,
-    alignItems: "center",
-  },
   button: {
     minWidth: 120,
     marginHorizontal: 8,

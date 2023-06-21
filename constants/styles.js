@@ -1,3 +1,24 @@
+import {
+  MD3DarkTheme,
+  MD3LightTheme,
+  adaptNavigationTheme,
+} from "react-native-paper";
+import {
+  NavigationContainer,
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme,
+} from "@react-navigation/native";
+import merge from "deepmerge";
+
+const { LightTheme, DarkTheme } = adaptNavigationTheme({
+  reactNavigationLight: NavigationDefaultTheme,
+  reactNavigationDark: NavigationDarkTheme,
+});
+export const { CombinedLightTheme, CombinedDarkTheme } = {
+  CombinedLightTheme: merge(MD3LightTheme, LightTheme),
+  CombinedDarkTheme: merge(MD3DarkTheme, DarkTheme),
+};
+
 export const GlobalStyles = {
   colors: {
     primary: "#7a44bb",

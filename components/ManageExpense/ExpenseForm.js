@@ -1,11 +1,10 @@
-import { View, StyleSheet } from "react-native";
-import Input from "./Input";
-import { GlobalStyles } from "../../constants/styles";
 import { useState } from "react";
-import CustButton from "../UI/CustButton";
+import { View, StyleSheet } from "react-native";
+import { TextInput, Text, Button } from "react-native-paper";
+
 import { getFormattedDate } from "../../util/date";
 
-import { TextInput, Text, Button } from "react-native-paper";
+import { GlobalStyles } from "../../constants/styles";
 
 const ExpenseForm = ({
   submitButtonLabel,
@@ -120,7 +119,7 @@ const ExpenseForm = ({
         <Button mode="elevated" style={styles.button} onPress={onCancel}>
           Cancel
         </Button>
-        <Button mode="contained" style={styles.button} onPress={submitHandler}>
+        <Button mode="elevated" style={styles.button} onPress={submitHandler}>
           {submitButtonLabel}
         </Button>
       </View>

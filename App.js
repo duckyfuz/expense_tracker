@@ -1,39 +1,22 @@
 import * as React from "react";
-import { View, StyleSheet, SafeAreaView } from "react-native";
-import { Text, BottomNavigation } from "react-native-paper";
-import { StatusBar } from "expo-status-bar";
+import { StyleSheet } from "react-native";
+import { PaperProvider, BottomNavigation } from "react-native-paper";
 
-import {
-  NavigationContainer,
-  DarkTheme as NavigationDarkTheme,
-  DefaultTheme as NavigationDefaultTheme,
-} from "@react-navigation/native";
-import {
-  MD3DarkTheme,
-  MD3LightTheme,
-  PaperProvider,
-  adaptNavigationTheme,
-} from "react-native-paper";
-import merge from "deepmerge";
-
+import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-
-import ExpensesContextProvider from "./store/expenses-context";
+import { StatusBar } from "expo-status-bar";
 import * as Notifications from "expo-notifications";
 
+import ExpensesContextProvider from "./store/expenses-context";
+
+import NullComponent from "./screens/NullComponent";
 import ManageExpense from "./screens/ManageExpense";
 import RecentExpenses from "./screens/RecentExpenses";
-
-import { GlobalStyles } from "./constants/styles";
-
-const { LightTheme, DarkTheme } = adaptNavigationTheme({
-  reactNavigationLight: NavigationDefaultTheme,
-  reactNavigationDark: NavigationDarkTheme,
-});
-export const { CombinedLightTheme, CombinedDarkTheme } = {
-  CombinedLightTheme: merge(MD3LightTheme, LightTheme),
-  CombinedDarkTheme: merge(MD3DarkTheme, DarkTheme),
-};
+import {
+  CombinedDarkTheme,
+  CombinedLightTheme,
+  GlobalStyles,
+} from "./constants/styles";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -59,18 +42,7 @@ async function scheduleNotificationHandler() {
 
 const Stack = createStackNavigator();
 
-function NullComponent() {
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
-        <Text variant="displayMedium" style={{ textAlign: "center" }}>
-          This page is being worked on! Check again in a week :)
-        </Text>
-      </View>
-    </SafeAreaView>
-  );
-}
-
+// Navigation (BottomTabs)
 const ExpensesOverview = () => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -99,14 +71,12 @@ const ExpensesOverview = () => {
       unfocusedIcon: "account-settings-outline",
     },
   ]);
-
   const renderScene = BottomNavigation.SceneMap({
     expenses: RecentExpenses,
     report: NullComponent,
     budgets: NullComponent,
     settings: NullComponent,
   });
-
   return (
     <BottomNavigation
       navigationState={{ index, routes }}
@@ -117,11 +87,13 @@ const ExpensesOverview = () => {
 };
 
 export default function App() {
+  const [light, setLight] = React.useState(false);
+
   return (
-    <PaperProvider theme={CombinedDarkTheme}>
+    <PaperProvider theme={light ? CombinedLightTheme : CombinedDarkTheme}>
       <ExpensesContextProvider>
-        <StatusBar style="light" />
-        <NavigationContainer theme={CombinedDarkTheme}>
+        <StatusBar style={light ? "dark" : "light"} />
+        <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Group>
               <Stack.Screen
@@ -134,10 +106,7 @@ export default function App() {
                 presentation: "transparentModal",
               }}
             >
-              <Stack.Screen
-                name="ManageExpense"
-                component={ManageExpense}
-              />
+              <Stack.Screen name="ManageExpense" component={ManageExpense} />
             </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>
