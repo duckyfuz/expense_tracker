@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { View, StyleSheet } from "react-native";
-import { TextInput, Text, Button } from "react-native-paper";
+import { TextInput, Text, Button, Card } from "react-native-paper";
 
 import { getFormattedDate } from "../../util/date";
 
-import { GlobalStyles } from "../../constants/styles";
+import { LightContext } from "../../store/light-context";
+import { CombinedDarkTheme, CombinedLightTheme } from "../../constants/styles";
+
+const currentDate = new Date();
 
 const ExpenseForm = ({
   submitButtonLabel,
@@ -12,8 +15,9 @@ const ExpenseForm = ({
   onSubmit,
   defaultValues,
 }) => {
-  const currentDate = new Date();
+  const { light } = useContext(LightContext);
 
+  // Handling inputs
   const [inputs, setInputs] = useState({
     amount: {
       value: defaultValues ? defaultValues.amount.toString() : "",
@@ -30,7 +34,6 @@ const ExpenseForm = ({
       isValid: true,
     },
   });
-
   function inputChangedHandler(inputIdentifier, enteredValue) {
     setInputs((curInputs) => {
       return {
@@ -40,6 +43,7 @@ const ExpenseForm = ({
     });
   }
 
+  // Handlingn submissions
   function submitHandler() {
     const expenseData = {
       amount: +inputs.amount.value,
@@ -75,7 +79,7 @@ const ExpenseForm = ({
     !inputs.description.isValid;
 
   return (
-    <View style={styles.form}>
+    <View style={{ margin: 8 }}>
       <View style={styles.inputsRows}>
         <TextInput
           style={styles.rowInput}
@@ -83,8 +87,10 @@ const ExpenseForm = ({
           label="Amount"
           placeholder="How much?"
           invalid={!inputs.amount.isValid}
+          error={!inputs.amount.isValid}
           onChangeText={inputChangedHandler.bind(this, "amount")}
           keyboardType="numeric"
+          right={<TextInput.Affix text="SGD" />}
           value={inputs.amount.value}
         />
         <TextInput
@@ -93,6 +99,7 @@ const ExpenseForm = ({
           label="Date"
           placeholder="YYYY-MM-DD"
           invalid={!inputs.date.isValid}
+          error={!inputs.date.isValid}
           onChangeText={inputChangedHandler.bind(this, "date")}
           value={inputs.date.value}
         />
@@ -106,20 +113,30 @@ const ExpenseForm = ({
           autoCorrect={false}
           autoCapitalize="none"
           invalid={!inputs.description.isValid}
+          error={!inputs.description.isValid}
           onChangeText={inputChangedHandler.bind(this, "description")}
           value={inputs.description.value}
         />
       </View>
-      {formIsInvalid && (
-        <Text style={styles.errorText}>
-          Invalid input values! Please check your entered data
-        </Text>
-      )}
       <View style={styles.buttons}>
         <Button mode="elevated" style={styles.button} onPress={onCancel}>
           Cancel
         </Button>
-        <Button mode="elevated" style={styles.button} onPress={submitHandler}>
+        <Button
+          mode="elevated"
+          style={[styles.button]}
+          buttonColor={
+            light
+              ? CombinedLightTheme.colors.primary
+              : CombinedDarkTheme.colors.primary
+          }
+          textColor={
+            light
+              ? CombinedLightTheme.colors.onPrimary
+              : CombinedDarkTheme.colors.onPrimary
+          }
+          onPress={submitHandler}
+        >
           {submitButtonLabel}
         </Button>
       </View>
@@ -130,26 +147,15 @@ const ExpenseForm = ({
 export default ExpenseForm;
 
 const styles = StyleSheet.create({
-  form: { marginTop: 20 },
   inputsRows: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 10,
   },
-  rowInput: { flex: 1, margin: 5 },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: GlobalStyles.colors.onBackground,
-    marginVertical: 24,
-    textAlign: "center",
-  },
-  errorText: {
-    textAlign: "center",
-    marginTop: 15,
-    color: GlobalStyles.colors.error,
-    marginBottom: 10,
+  rowInput: {
+    flex: 1,
+    margin: 6,
+    marginBottom: 6,
   },
   buttons: {
     flexDirection: "row",
@@ -158,6 +164,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 16,
-    marginTop: 10,
+    marginTop: 12,
+    marginBottom: -6,
   },
 });
