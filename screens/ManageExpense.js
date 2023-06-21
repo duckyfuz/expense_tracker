@@ -9,16 +9,18 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import { Button, Card, Divider } from "react-native-paper";
 
 import { ExpensesContext } from "../store/expenses-context";
+import { LightContext } from "../store/light-context";
+
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 import { deleteExpense, storeExpense, updateExpense } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
 import { useCardAnimation } from "@react-navigation/stack";
-import { Button, Card, Divider } from "react-native-paper";
 
-import { CombinedDarkTheme, CombinedLightTheme } from "../App";
+import { CombinedDarkTheme, CombinedLightTheme } from "../constants/styles";
 
 const ManageExpense = ({ route, navigation }) => {
   const { height } = useWindowDimensions();
@@ -28,6 +30,7 @@ const ManageExpense = ({ route, navigation }) => {
   const [error, setError] = useState();
 
   const expensesCtx = useContext(ExpensesContext);
+  const lightCtx = useContext(LightContext);
 
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
@@ -45,10 +48,8 @@ const ManageExpense = ({ route, navigation }) => {
   async function deleteExpenseHandler() {
     setIsSubmitting(true);
     try {
-      console.log("Attempting Delete");
       await deleteExpense(editedExpenseId);
       expensesCtx.deleteExpense(editedExpenseId);
-      console.log("Delete Successful");
       navigation.goBack();
     } catch (error) {
       console.log(error);
@@ -89,6 +90,8 @@ const ManageExpense = ({ route, navigation }) => {
   if (isSubmitting) {
     <LoadingOverlay />;
   }
+
+  const { light } = useContext(LightContext);
 
   return (
     <KeyboardAvoidingView
@@ -145,8 +148,16 @@ const ManageExpense = ({ route, navigation }) => {
                     <Button
                       onPress={deleteExpenseHandler}
                       mode="elevated"
-                      buttonColor={CombinedDarkTheme.colors.errorContainer}
-                      textColor={CombinedDarkTheme.colors.error}
+                      buttonColor={
+                        light
+                          ? CombinedLightTheme.colors.errorContainer
+                          : CombinedDarkTheme.colors.errorContainer
+                      }
+                      textColor={
+                        light
+                          ? CombinedLightTheme.colors.error
+                          : CombinedDarkTheme.colors.error
+                      }
                     >
                       Delete
                     </Button>

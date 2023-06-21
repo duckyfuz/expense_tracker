@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useState } from "react";
 
 export const ExpensesContext = createContext({
   expenses: [],
@@ -37,15 +37,12 @@ function ExpensesContextProvider({ children }) {
   function addExpense(expenseData) {
     dispatch({ type: "ADD", payload: expenseData });
   }
-
   function setExpenses(expenses) {
     dispatch({ type: "SET", payload: expenses });
   }
-
   function deleteExpense(id) {
     dispatch({ type: "DELETE", payload: id });
   }
-
   function updateExpense(id, expenseData) {
     dispatch({ type: "UPDATE", payload: { id: id, data: expenseData } });
   }
