@@ -7,12 +7,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 import * as Notifications from "expo-notifications";
 
-import ExpensesContextProvider from "./store/expenses-context";
 import { LightContext } from "./store/light-context";
 
 import NullComponent from "./screens/NullComponent";
 import ManageExpense from "./screens/ManageExpense";
-import RecentExpenses from "./screens/RecentExpenses";
+import Expenses from "./screens/Expenses";
+import Settings from "./screens/Settings";
+
 import {
   CombinedDarkTheme,
   CombinedLightTheme,
@@ -73,10 +74,10 @@ const ExpensesOverview = () => {
     },
   ]);
   const renderScene = BottomNavigation.SceneMap({
-    expenses: RecentExpenses,
+    expenses: Expenses,
     report: NullComponent,
     budgets: NullComponent,
-    settings: NullComponent,
+    settings: Settings,
   });
   return (
     <BottomNavigation
@@ -92,26 +93,24 @@ function AppBody() {
 
   return (
     <PaperProvider theme={light ? CombinedLightTheme : CombinedDarkTheme}>
-      <ExpensesContextProvider>
-        <StatusBar style={light ? "dark" : "light"} />
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Group>
-              <Stack.Screen
-                name="Expenses Overview"
-                component={ExpensesOverview}
-              />
-            </Stack.Group>
-            <Stack.Group
-              screenOptions={{
-                presentation: "transparentModal",
-              }}
-            >
-              <Stack.Screen name="ManageExpense" component={ManageExpense} />
-            </Stack.Group>
-          </Stack.Navigator>
-        </NavigationContainer>
-      </ExpensesContextProvider>
+      <StatusBar style={light ? "dark" : "light"} />
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Group>
+            <Stack.Screen
+              name="Expenses Overview"
+              component={ExpensesOverview}
+            />
+          </Stack.Group>
+          <Stack.Group
+            screenOptions={{
+              presentation: "transparentModal",
+            }}
+          >
+            <Stack.Screen name="ManageExpense" component={ManageExpense} />
+          </Stack.Group>
+        </Stack.Navigator>
+      </NavigationContainer>
     </PaperProvider>
   );
 }

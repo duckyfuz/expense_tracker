@@ -4,7 +4,6 @@ import { AnimatedFAB } from "react-native-paper";
 
 import { useNavigation } from "@react-navigation/native";
 
-import { getDateMinusDays } from "../util/date";
 import { fetchExpenses } from "../util/http";
 
 import { ExpensesContext } from "../store/expenses-context";
@@ -14,7 +13,7 @@ import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
 import ManageExpense from "./ManageExpense";
 
-const RecentExpenses = ({ visible, animateFrom, style }) => {
+const Expenses = ({ visible, animateFrom, style }) => {
   // Background work for the FAB
   const [isExtended, setIsExtended] = useState(true);
   const isIOS = Platform.OS === "ios";
@@ -99,7 +98,7 @@ const RecentExpenses = ({ visible, animateFrom, style }) => {
   );
 };
 
-export default RecentExpenses;
+export default Expenses;
 
 const styles = StyleSheet.create({
   container: {
