@@ -8,7 +8,6 @@ import ExpensesList from "./ExpensesList";
 import MonthsNav from "./MonthsNav";
 
 import { LightContext } from "../../store/light-context";
-
 import { CombinedDarkTheme, CombinedLightTheme } from "../../constants/styles";
 
 const ExpensesOutput = ({
