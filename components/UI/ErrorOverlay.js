@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text, Button, Card } from "react-native-paper";
 
-import { GlobalStyles } from "../../constants/styles";
 import { LightContext } from "../../store/light-context";
 import { CombinedDarkTheme, CombinedLightTheme } from "../../constants/styles";
 
