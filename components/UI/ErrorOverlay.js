@@ -1,13 +1,57 @@
-import { Text, StyleSheet, View, Button } from "react-native";
+import { useContext } from "react";
+import { StyleSheet, View } from "react-native";
+import { Text, Button, Card } from "react-native-paper";
 
 import { GlobalStyles } from "../../constants/styles";
+import { LightContext } from "../../store/light-context";
+import { CombinedDarkTheme, CombinedLightTheme } from "../../constants/styles";
 
 const ErrorOverlay = ({ message, onConfirm }) => {
+  const { light } = useContext(LightContext);
+
   return (
     <View style={styles.container}>
-      <Text style={[styles.text, styles.title]}>An error ocurred!</Text>
-      <Text style={styles.text}>{message}</Text>
-      <Button onPress={onConfirm} title="Okay" />
+      <Card style={{ margin: 6, marginBottom: 60, padding: 12, paddingTop: 4 }}>
+        <Text
+          variant="titleLarge"
+          style={[
+            styles.title,
+            {
+              color: light
+                ? CombinedLightTheme.colors.error
+                : CombinedDarkTheme.colors.error,
+            },
+          ]}
+        >
+          An error ocurred!
+        </Text>
+        <Text
+          variant="titleMedium"
+          style={{
+            color: light
+              ? CombinedLightTheme.colors.error
+              : CombinedDarkTheme.colors.error,
+          }}
+        >
+          {message}
+        </Text>
+      </Card>
+      <Button
+        mode="elevated"
+        onPress={onConfirm}
+        buttonColor={
+          light
+            ? CombinedLightTheme.colors.error
+            : CombinedDarkTheme.colors.error
+        }
+        textColor={
+          light
+            ? CombinedLightTheme.colors.onError
+            : CombinedDarkTheme.colors.onError
+        }
+      >
+        Okay
+      </Button>
     </View>
   );
 };
@@ -19,16 +63,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 24,
-    backgroundColor: GlobalStyles.colors.background,
   },
   text: {
-    textAlign: "center",
     marginBottom: 8,
-    color: GlobalStyles.colors.onBackground,
   },
   title: {
-    fontSize: 20,
+    margin: 8,
     fontWeight: "bold",
   },
 });
