@@ -1,6 +1,21 @@
 import { StyleSheet, View } from "react-native";
 import { Card, IconButton, Text } from "react-native-paper";
 
+const monthList = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "June",
+  "July",
+  "Aug",
+  "Sept",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
 function MonthsNav({
   previousMonth,
   nextMonth,
@@ -10,50 +25,32 @@ function MonthsNav({
   nextMonth: any;
   month: any;
 }) {
-  const monthList = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "June",
-    "July",
-    "Aug",
-    "Sept",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+  const Direction = ({ back }: { back: boolean }) => {
+    const icon = back
+      ? "arrow-left-drop-circle-outline"
+      : "arrow-right-drop-circle-outline";
+    const navDir = back ? previousMonth : nextMonth;
+    return (
+      <IconButton
+        icon={icon}
+        size={24}
+        onPress={navDir}
+        style={{ margin: -10 }}
+      />
+    );
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.monthContainer}>
-        <IconButton
-          icon="arrow-left-drop-circle-outline"
-          size={24}
-          onPress={previousMonth}
-          style={{ margin: -10 }}
-        />
-        <Card style={{ margin: 6, padding: 10 }}>
-          <View
-            style={{
-              minWidth: 40,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text variant="titleSmall" style={{ fontWeight: "bold" }}>
-              {monthList[Number(month) - 1]}
-            </Text>
-          </View>
-        </Card>
-        <IconButton
-          icon="arrow-right-drop-circle-outline"
-          size={24}
-          onPress={nextMonth}
-          style={{ margin: -10 }}
-        />
-      </View>
+      <Direction back={true} />
+      <Card style={{ margin: 6, padding: 10 }}>
+        <View style={styles.monthContainer}>
+          <Text variant="titleMedium" style={{ fontWeight: "bold" }}>
+            {monthList[Number(month) - 1]}
+          </Text>
+        </View>
+      </Card>
+      <Direction back={false} />
     </View>
   );
 }
@@ -67,7 +64,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   monthContainer: {
-    flexDirection: "row",
+    minWidth: 40,
     justifyContent: "center",
     alignItems: "center",
   },
