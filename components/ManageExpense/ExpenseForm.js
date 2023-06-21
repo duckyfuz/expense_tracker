@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { View, StyleSheet } from "react-native";
-import { TextInput, Text, Button, Card } from "react-native-paper";
+import { TextInput, Button } from "react-native-paper";
 
 import { getFormattedDate } from "../../util/date";
 
