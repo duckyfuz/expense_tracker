@@ -12,7 +12,6 @@ import { CombinedDarkTheme, CombinedLightTheme } from "../../constants/styles";
 
 const ExpensesOutput = ({
   expenses,
-  expensesPeriod,
   fallbackText,
   onScroll,
   previousMonth,
@@ -44,7 +43,7 @@ const ExpensesOutput = ({
 
   return (
     <View style={styles.container}>
-      <ExpensesSummary expenses={expenses} periodName={expensesPeriod} />
+      <ExpensesSummary expenses={expenses} />
       <MonthsNav
         previousMonth={previousMonth}
         nextMonth={nextMonth}

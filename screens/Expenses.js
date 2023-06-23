@@ -89,7 +89,6 @@ const Expenses = ({ visible, animateFrom, style }) => {
     <SafeAreaView style={styles.container}>
       <ExpensesOutput
         expenses={recentExpenses}
-        expensesPeriod="Last 7 Days"
         fallbackText="No expenses registed for the past 7 days"
         onScroll={onScroll}
         previousMonth={previousMonth}

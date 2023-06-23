@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Divider, Text, Card } from "react-native-paper";
 
-const ExpensesSummary = ({ expenses, periodName }) => {
+const ExpensesSummary = ({ expenses }) => {
   const expensesSum = expenses.reduce((sum, expense) => {
     return sum + expense.amount;
   }, 0);
@@ -10,7 +10,7 @@ const ExpensesSummary = ({ expenses, periodName }) => {
     <Card>
       <Card.Content style={styles.container}>
         <Text variant="titleLarge" style={{ fontWeight: "bold" }}>
-          {periodName}
+          Monthly Budget
         </Text>
         <Text variant="titleLarge" style={{ fontWeight: "bold" }}>
           ${expensesSum.toFixed(2)}
