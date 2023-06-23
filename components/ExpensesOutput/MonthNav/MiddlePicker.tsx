@@ -20,10 +20,12 @@ const MiddlePicker = ({
   previousMonth,
   nextMonth,
   month,
+  styleSheet,
 }: {
   previousMonth: Function;
   nextMonth: Function;
   month: string;
+  styleSheet: any;
 }) => {
   const Direction = ({ back }: { back: boolean }) => {
     const icon = back
@@ -41,14 +43,7 @@ const MiddlePicker = ({
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <View style={[styleSheet.sideContainer, { justifyContent: "center" }]}>
       <Direction back={true} />
       <Card style={{ margin: 6, paddingHorizontal: 12, paddingVertical: 6 }}>
         <View

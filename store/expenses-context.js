@@ -31,7 +31,7 @@ function expensesReducer(state, action) {
   }
 }
 
-function ExpensesContextProvider({ children }) {
+export default function ExpensesContextProvider({ children }) {
   const [expensesState, dispatch] = useReducer(expensesReducer, []);
 
   function addExpense(expenseData) {
@@ -61,5 +61,3 @@ function ExpensesContextProvider({ children }) {
     </ExpensesContext.Provider>
   );
 }
-
-export default ExpensesContextProvider;

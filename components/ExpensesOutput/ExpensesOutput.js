@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { Text, Divider } from "react-native-paper";
 
@@ -6,20 +6,14 @@ import ExpensesSummary from "./ExpensesSummary";
 import ExpensesList from "./ExpensesList";
 
 import MonthsNav from "./MonthNav/MonthsNav";
+import LoadingOverlay from "../UI/LoadingOverlay";
 
 import { LightContext } from "../../store/light-context";
 import { CombinedDarkTheme, CombinedLightTheme } from "../../constants/styles";
 
-const ExpensesOutput = ({
-  expenses,
-  fallbackText,
-  onScroll,
-  previousMonth,
-  nextMonth,
-  month,
-  year,
-}) => {
+const ExpensesOutput = ({ expenses, fallbackText, onScroll }) => {
   const { light } = useContext(LightContext);
+  // const [loading, setLoading] = useState(false);
 
   // Set content to fallback text if there are no expenses recorded
   let content = (
@@ -40,16 +34,14 @@ const ExpensesOutput = ({
   if (expenses.length > 0) {
     content = <ExpensesList expenses={expenses} />;
   }
+  // if (loading) {
+  //   content = <LoadingOverlay />;
+  // }
 
   return (
     <View style={styles.container}>
       <ExpensesSummary expenses={expenses} />
-      <MonthsNav
-        previousMonth={previousMonth}
-        nextMonth={nextMonth}
-        month={month}
-        year={year}
-      />
+      <MonthsNav />
       <View>
         <Divider bold={true} />
       </View>

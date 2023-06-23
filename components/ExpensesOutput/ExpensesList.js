@@ -1,5 +1,4 @@
 import { FlatList } from "react-native";
-import { Card } from "react-native-paper";
 
 import ExpenseItem from "./ExpenseItem";
 

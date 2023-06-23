@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { fetchExpenses } from "../util/http";
 
 import { ExpensesContext } from "../store/expenses-context";
+import { MonthContext } from "../store/month-context";
 
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
@@ -29,29 +30,7 @@ const Expenses = ({ visible, animateFrom, style }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
   const expensesCtx = useContext(ExpensesContext);
-  const [month, setMonth] = useState(
-    (Number(new Date().getMonth()) + 1).toString().padStart(2, "0")
-  );
-  const [year, setYear] = useState(new Date().getFullYear());
-
-  function previousMonth() {
-    if (month === "01") {
-      setMonth("12");
-      newYear = year - 1;
-      setYear(newYear);
-    } else {
-      setMonth((Number(month) - 1).toString().padStart(2, "0"));
-    }
-  }
-  function nextMonth() {
-    if (month === "12") {
-      setMonth("01");
-      newYear = year + 1;
-      setYear(newYear);
-    } else {
-      setMonth((Number(month) + 1).toString().padStart(2, "0"));
-    }
-  }
+  const { month, year } = useContext(MonthContext);
 
   // This part loads the data from firebase and adds it to context, displays loading if loading, error if error
   useEffect(() => {
@@ -91,10 +70,6 @@ const Expenses = ({ visible, animateFrom, style }) => {
         expenses={recentExpenses}
         fallbackText="No expenses registed for the past 7 days"
         onScroll={onScroll}
-        previousMonth={previousMonth}
-        nextMonth={nextMonth}
-        month={month}
-        year={year}
       />
       <AnimatedFAB
         icon={"cash-register"}
