@@ -23,10 +23,13 @@ const BudgetSummary = () => {
           data={[
             { title: "Food", id: 1 },
             { title: "Entertainment", id: 2 },
+            { title: "Fees", id: 3 },
+            { title: "Transport", id: 4 },
           ]}
           numColumns={1}
           renderItem={renderBudgetTitle}
           keyExtractor={(item) => item.id}
+          showsHorizontalScrollIndicator={false}
         />
       </View>
     );
