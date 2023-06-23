@@ -32,14 +32,25 @@ const Expenses = ({ visible, animateFrom, style }) => {
   const [month, setMonth] = useState(
     (Number(new Date().getMonth()) + 1).toString().padStart(2, "0")
   );
+  const [year, setYear] = useState(new Date().getFullYear());
 
   function previousMonth() {
-    updatedMonth = (Number(month) - 1).toString().padStart(2, "0");
-    setMonth(updatedMonth);
+    if (month === "01") {
+      setMonth("12");
+      newYear = year - 1;
+      setYear(newYear);
+    } else {
+      setMonth((Number(month) - 1).toString().padStart(2, "0"));
+    }
   }
   function nextMonth() {
-    updatedMonth = (Number(month) + 1).toString().padStart(2, "0");
-    setMonth(updatedMonth);
+    if (month === "12") {
+      setMonth("01");
+      newYear = year + 1;
+      setYear(newYear);
+    } else {
+      setMonth((Number(month) + 1).toString().padStart(2, "0"));
+    }
   }
 
   // This part loads the data from firebase and adds it to context, displays loading if loading, error if error
@@ -67,7 +78,10 @@ const Expenses = ({ visible, animateFrom, style }) => {
   }
   // Then, this portion filters the entires by month
   const recentExpenses = expensesCtx.expenses.filter((expense) => {
-    return expense.date.toISOString().slice(5, 7) === month;
+    return (
+      expense.date.toISOString().slice(5, 7) === month &&
+      expense.date.toISOString().slice(0, 4) === year.toString()
+    );
   });
 
   // Rendering...
@@ -81,6 +95,7 @@ const Expenses = ({ visible, animateFrom, style }) => {
         previousMonth={previousMonth}
         nextMonth={nextMonth}
         month={month}
+        year={year}
       />
       <AnimatedFAB
         icon={"cash-register"}

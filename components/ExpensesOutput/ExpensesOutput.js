@@ -5,7 +5,7 @@ import { Text, Divider } from "react-native-paper";
 import ExpensesSummary from "./ExpensesSummary";
 import ExpensesList from "./ExpensesList";
 
-import MonthsNav from "./MonthsNav";
+import MonthsNav from "./MonthNav/MonthsNav";
 
 import { LightContext } from "../../store/light-context";
 import { CombinedDarkTheme, CombinedLightTheme } from "../../constants/styles";
@@ -18,6 +18,7 @@ const ExpensesOutput = ({
   previousMonth,
   nextMonth,
   month,
+  year,
 }) => {
   const { light } = useContext(LightContext);
 
@@ -48,6 +49,7 @@ const ExpensesOutput = ({
         previousMonth={previousMonth}
         nextMonth={nextMonth}
         month={month}
+        year={year}
       />
       <View>
         <Divider bold={true} />

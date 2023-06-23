@@ -1,4 +1,4 @@
-import { View, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import ExpenseItem from "./ExpenseItem";
 
 function renderExpenseItem(itemData) {
@@ -7,14 +7,13 @@ function renderExpenseItem(itemData) {
 
 const ExpensesList = ({ expenses }) => {
   return (
-    <View style={{ marginTop: 6, flex: 1 }}>
-      <FlatList
-        scrollEnabled={false}
-        data={expenses}
-        renderItem={renderExpenseItem}
-        keyExtractor={(item) => item.id}
-      />
-    </View>
+    <FlatList
+      scrollEnabled={false}
+      data={expenses}
+      renderItem={renderExpenseItem}
+      keyExtractor={(item) => item.id}
+      style={{ marginTop: 6, flex: 1 }}
+    />
   );
 };
 

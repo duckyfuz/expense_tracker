@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native";
-import { Card, IconButton, Text } from "react-native-paper";
+import { View } from "react-native";
+import { IconButton, Card, Text } from "react-native-paper";
 
 const monthList = [
   "Jan",
@@ -16,15 +16,15 @@ const monthList = [
   "Dec",
 ];
 
-function MonthsNav({
+const MiddlePicker = ({
   previousMonth,
   nextMonth,
   month,
 }: {
-  previousMonth: any;
-  nextMonth: any;
-  month: any;
-}) {
+  previousMonth: Function;
+  nextMonth: Function;
+  month: string;
+}) => {
   const Direction = ({ back }: { back: boolean }) => {
     const icon = back
       ? "arrow-left-drop-circle-outline"
@@ -34,17 +34,30 @@ function MonthsNav({
       <IconButton
         icon={icon}
         size={24}
-        onPress={navDir}
+        onPress={() => navDir()}
         style={{ margin: -10 }}
       />
     );
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Direction back={true} />
       <Card style={{ margin: 6, paddingHorizontal: 12, paddingVertical: 6 }}>
-        <View style={styles.monthContainer}>
+        <View
+          style={{
+            minWidth: 40,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Text variant="titleMedium" style={{ fontWeight: "bold" }}>
             {monthList[Number(month) - 1]}
           </Text>
@@ -53,19 +66,6 @@ function MonthsNav({
       <Direction back={false} />
     </View>
   );
-}
+};
 
-export default MonthsNav;
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  monthContainer: {
-    minWidth: 40,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
+export default MiddlePicker;
