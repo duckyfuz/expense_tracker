@@ -6,7 +6,6 @@ import ExpensesSummary from "./ExpensesSummary";
 import ExpensesList from "./ExpensesList";
 
 import MonthsNav from "./MonthNav/MonthsNav";
-import LoadingOverlay from "../UI/LoadingOverlay";
 
 import { LightContext } from "../../store/light-context";
 import { CombinedDarkTheme, CombinedLightTheme } from "../../constants/styles";
