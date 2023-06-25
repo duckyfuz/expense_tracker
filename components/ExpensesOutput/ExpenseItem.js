@@ -38,7 +38,7 @@ const ExpenseItem = ({ id, description, amount, date, category }, props) => {
         >
           <Ionicons
             name={typeToIcon[category]}
-            size={32}
+            size={28}
             color={colors.primary}
           />
         </View>
