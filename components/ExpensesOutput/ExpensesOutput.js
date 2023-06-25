@@ -46,7 +46,7 @@ const ExpensesOutput = ({
       <ExpensesSummary expenses={expenses} />
       <MonthsNav />
       <View>
-        <Divider bold={true} />
+        <Divider bold/>
       </View>
       <ScrollView onScroll={onScroll} scrollEventThrottle={16}>
         {content}

@@ -4,8 +4,26 @@ import { Card, Text, Divider } from "react-native-paper";
 
 import { BudgetItemContext } from "../../store/budgetItems-context";
 
-const BudgetSummary = () => {
+const monthList = [
+  "January",
+  "Febuary",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const BudgetSummary = ({ budgetType, expenses }) => {
   const { budgetItems } = useContext(BudgetItemContext);
+  const expensesSum = expenses.reduce((sum, expense) => {
+    return sum + expense.amount;
+  }, 0);
 
   const renderBudgetTitle = (itemData) => {
     return (
@@ -39,10 +57,12 @@ const BudgetSummary = () => {
     <Card style={{ overflow: true }}>
       <Card.Content style={styles.container}>
         <Text variant="titleLarge" style={{ fontWeight: "bold" }}>
-          Current Budget
+          {monthList[Number(new Date().toISOString().slice(5, 7))]}
+          {" - "}
+          {new Date().toISOString().slice(0, 4)}
         </Text>
         <Text variant="titleLarge" style={{ fontWeight: "bold" }}>
-          $1
+          ${expensesSum.toFixed(2)}
         </Text>
       </Card.Content>
       <Divider style={{ marginVertical: 6 }} horizontalInset={true} />

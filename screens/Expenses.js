@@ -55,6 +55,7 @@ const Expenses = ({ visible, animateFrom, style }) => {
   if (isLoading) {
     return <LoadingOverlay />;
   }
+  
   // Then, this portion filters the entires by month
   const recentExpenses = expensesCtx.expenses.filter((expense) => {
     return (
@@ -62,7 +63,6 @@ const Expenses = ({ visible, animateFrom, style }) => {
       expense.date.toISOString().slice(0, 4) === year.toString()
     );
   });
-
   const sortedExpenses = recentExpenses.sort((a, b) => {
     return (
       b.date.toISOString().slice(8, 10) - a.date.toISOString().slice(8, 10)
