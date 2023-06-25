@@ -63,11 +63,17 @@ const Expenses = ({ visible, animateFrom, style }) => {
     );
   });
 
+  const sortedExpenses = recentExpenses.sort((a, b) => {
+    return (
+      b.date.toISOString().slice(8, 10) - a.date.toISOString().slice(8, 10)
+    );
+  });
+
   // Rendering...
   return (
     <SafeAreaView style={styles.container}>
       <ExpensesOutput
-        expenses={recentExpenses}
+        expenses={sortedExpenses}
         fallbackText="No expenses registed for the past 7 days"
         onScroll={onScroll}
       />

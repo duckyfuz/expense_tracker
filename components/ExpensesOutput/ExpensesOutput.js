@@ -10,7 +10,11 @@ import MonthsNav from "./MonthNav/MonthsNav";
 import { LightContext } from "../../store/light-context";
 import { CombinedDarkTheme, CombinedLightTheme } from "../../constants/styles";
 
-const ExpensesOutput = ({ expenses, fallbackText, onScroll }) => {
+const ExpensesOutput = ({
+  expenses,
+  fallbackText,
+  onScroll,
+}) => {
   const { light } = useContext(LightContext);
   // const [loading, setLoading] = useState(false);
 

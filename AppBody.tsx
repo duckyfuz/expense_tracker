@@ -45,7 +45,7 @@ async function scheduleNotificationHandler() {
 const Stack = createStackNavigator();
 
 // Navigation (BottomTabs)
-const ExpensesOverview = () => {
+const BottomTabs = () => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {
@@ -97,10 +97,7 @@ function AppBody() {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Group>
-            <Stack.Screen
-              name="Expenses Overview"
-              component={ExpensesOverview}
-            />
+            <Stack.Screen name="Expenses Overview" component={BottomTabs} />
           </Stack.Group>
           <Stack.Group
             screenOptions={{

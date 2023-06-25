@@ -13,10 +13,11 @@ const ExpenseItem = ({ id, description, amount, date }) => {
   }
 
   const TitleDate = () => {
+    const formattedDate = getFormattedDate(date)
     return (
       <View>
         <Text variant="titleLarge">{description}</Text>
-        <Text variant="labelMedium">{getFormattedDate(date)}</Text>
+        <Text variant="labelMedium">{formattedDate}</Text>
       </View>
     );
   };
