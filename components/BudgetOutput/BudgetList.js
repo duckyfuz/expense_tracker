@@ -1,4 +1,5 @@
-import { FlatList, View } from "react-native";
+import { FlatList } from "react-native";
+
 import BudgetItem from "./BudgetItem";
 
 const BudgetList = ({ expenses }) => {

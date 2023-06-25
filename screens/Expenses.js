@@ -17,7 +17,6 @@ import ManageExpense from "./ManageExpense";
 const Expenses = ({ visible, animateFrom, style }) => {
   // Background work for the FAB
   const [isExtended, setIsExtended] = useState(true);
-  const isIOS = Platform.OS === "ios";
   const onScroll = ({ nativeEvent }) => {
     const currentScrollPosition =
       Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
@@ -55,7 +54,7 @@ const Expenses = ({ visible, animateFrom, style }) => {
   if (isLoading) {
     return <LoadingOverlay />;
   }
-  
+
   // Then, this portion filters the entires by month
   const recentExpenses = expensesCtx.expenses.filter((expense) => {
     return (

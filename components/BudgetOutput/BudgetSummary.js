@@ -1,6 +1,12 @@
-import { useContext } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
-import { Card, Text, Divider } from "react-native-paper";
+import { useContext, useState } from "react";
+import {
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { Card, Text, Divider, useTheme } from "react-native-paper";
 
 import { BudgetItemContext } from "../../store/budgetItems-context";
 
@@ -19,7 +25,8 @@ const monthList = [
   "December",
 ];
 
-const BudgetSummary = ({ budgetType, expenses }) => {
+const BudgetSummary = ({ budgetType, expenses, setType }, props) => {
+  const { colors } = useTheme();
   const { budgetItems } = useContext(BudgetItemContext);
   const expensesSum = expenses.reduce((sum, expense) => {
     return sum + expense.amount;
@@ -27,13 +34,35 @@ const BudgetSummary = ({ budgetType, expenses }) => {
 
   const renderBudgetTitle = (itemData) => {
     return (
-      <Card style={{ margin: 6, paddingHorizontal: 12, paddingVertical: 6 }}>
-        <View style={styles.monthContainer}>
-          <Text variant="titleMedium" style={{ fontWeight: "bold" }}>
-            {itemData.item.label}
-          </Text>
-        </View>
-      </Card>
+      <TouchableOpacity>
+        <Card
+          style={{
+            margin: 6,
+            paddingHorizontal: 12,
+            paddingVertical: 6,
+            backgroundColor:
+              budgetType === itemData.item.label
+                ? colors.primaryContainer
+                : colors.elevation,
+          }}
+          onPress={() => setType(itemData.item.label)}
+        >
+          <View style={[styles.monthContainer]}>
+            <Text
+              variant="titleMedium"
+              style={{
+                fontWeight: "bold",
+                color:
+                  budgetType === itemData.item.label
+                    ? colors.onPrimaryContainer
+                    : colors.onBackground,
+              }}
+            >
+              {itemData.item.label}
+            </Text>
+          </View>
+        </Card>
+      </TouchableOpacity>
     );
   };
 
@@ -41,10 +70,8 @@ const BudgetSummary = ({ budgetType, expenses }) => {
     return (
       <View style={[styles.container]}>
         <FlatList
-          style={{ width: "100%" }}
           horizontal
           data={budgetItems}
-          numColumns={1}
           renderItem={renderBudgetTitle}
           keyExtractor={(item) => item.id}
           showsHorizontalScrollIndicator={false}
@@ -57,9 +84,9 @@ const BudgetSummary = ({ budgetType, expenses }) => {
     <Card style={{ overflow: true }}>
       <Card.Content style={styles.container}>
         <Text variant="titleLarge" style={{ fontWeight: "bold" }}>
-          {monthList[Number(new Date().toISOString().slice(5, 7))]}
+          {budgetType}
           {" - "}
-          {new Date().toISOString().slice(0, 4)}
+          {monthList[Number(new Date().toISOString().slice(5, 7))]}
         </Text>
         <Text variant="titleLarge" style={{ fontWeight: "bold" }}>
           ${expensesSum.toFixed(2)}

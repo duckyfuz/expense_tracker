@@ -22,7 +22,11 @@ const BudgetOutput = () => {
 
   return (
     <View style={styles.container}>
-      <BudgetSummary budgetType={type} expenses={sortedExpenses} />
+      <BudgetSummary
+        budgetType={type}
+        expenses={sortedExpenses}
+        setType={setType}
+      />
       <Divider bold style={{ marginTop: 6 }} />
       <BudgetList expenses={sortedExpenses} />
     </View>
