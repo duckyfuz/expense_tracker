@@ -25,6 +25,7 @@ const BudgetSummary = () => {
             { title: "Entertainment", id: 2 },
             { title: "Fees", id: 3 },
             { title: "Transport", id: 4 },
+            { title: "Others", id: 5 },
           ]}
           numColumns={1}
           renderItem={renderBudgetTitle}
