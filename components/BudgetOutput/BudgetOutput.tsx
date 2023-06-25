@@ -1,14 +1,16 @@
-import { View, ScrollView, StyleSheet } from "react-native";
-import { Card } from "react-native-paper";
+import { useState } from "react";
+import { View, StyleSheet } from "react-native";
 
 import BudgetSummary from "./BudgetSummary";
+import BudgetList from "./BudgetList";
 
 const BudgetOutput = () => {
-  let content = false;
+  const [type, setType] = useState("Food & Drinks")
+
   return (
     <View style={styles.container}>
       <BudgetSummary />
-      <ScrollView>{content}</ScrollView>
+      <BudgetList budgetType={type}/>
     </View>
   );
 };
