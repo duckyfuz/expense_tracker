@@ -121,7 +121,7 @@ const ManageExpense = ({ route, navigation }) => {
                   {
                     translateY: current.progress.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [height, height * 0.55],
+                      outputRange: [height, height * 0.4],
                       extrapolate: "clamp",
                     }),
                   },

@@ -1,10 +1,12 @@
 import { useState, useContext } from "react";
 import { View, StyleSheet } from "react-native";
 import { TextInput, Button } from "react-native-paper";
+import DropDown from "react-native-paper-dropdown";
 
 import { getFormattedDate } from "../../util/date";
 
 import { LightContext } from "../../store/light-context";
+import { BudgetItemContext } from "../../store/budgetItems-context";
 import { CombinedDarkTheme, CombinedLightTheme } from "../../constants/styles";
 
 const currentDate = new Date();
@@ -16,6 +18,10 @@ const ExpenseForm = ({
   defaultValues,
 }) => {
   const { light } = useContext(LightContext);
+  const { budgetItems } = useContext(BudgetItemContext);
+
+  const [showDropDown, setShowDropDown] = useState(false);
+  const [category, setCategory] = useState("");
 
   // Handling inputs
   const [inputs, setInputs] = useState({
@@ -106,7 +112,7 @@ const ExpenseForm = ({
       </View>
       <View style={styles.inputsRows}>
         <TextInput
-          style={styles.rowInput}
+          style={[styles.rowInput]}
           mode="outlined"
           label="Description"
           placeholder="What did you spend on?"
@@ -117,6 +123,21 @@ const ExpenseForm = ({
           onChangeText={inputChangedHandler.bind(this, "description")}
           value={inputs.description.value}
         />
+      </View>
+      <View style={[styles.inputsRows]}>
+        <View style={[styles.rowInput, { maxWidth: 250 }]}>
+          <DropDown
+            label={"Category"}
+            mode={"outlined"}
+            dropDownContainerMaxHeight={120}
+            visible={showDropDown}
+            showDropDown={() => setShowDropDown(true)}
+            onDismiss={() => setShowDropDown(false)}
+            value={category.length == 0 ? "Others" : category}
+            setValue={setCategory}
+            list={budgetItems}
+          />
+        </View>
       </View>
       <View style={styles.buttons}>
         <Button mode="elevated" style={styles.button} onPress={onCancel}>

@@ -12,7 +12,7 @@ const BudgetSummary = () => {
       <Card style={{ margin: 6, paddingHorizontal: 12, paddingVertical: 6 }}>
         <View style={styles.monthContainer}>
           <Text variant="titleMedium" style={{ fontWeight: "bold" }}>
-            {itemData.item.title}
+            {itemData.item.label}
           </Text>
         </View>
       </Card>

@@ -4,12 +4,12 @@ export const BudgetItemContext = createContext();
 
 export const BudgetItemProvider = ({ children }) => {
   const budgetItems = [
-    { title: "Food & Drinks", id: 1 },
-    { title: "Entertainment", id: 2 },
-    { title: "Bills & Fees", id: 3 },
-    { title: "Transportation", id: 4 },
-    { title: "Personal Wants", id: 5 },
-    { title: "Others", id: 6 },
+    { label: "Food & Drinks", value: "Food & Drinks", id: 1 },
+    { label: "Entertainment", value: "Entertainment", id: 2 },
+    { label: "Bills & Fees", value: "Bills & Fees", id: 3 },
+    { label: "Transportation", value: "Transportation", id: 4 },
+    { label: "Personal Wants", value: "Personal Wants", id: 5 },
+    { label: "Others", value: "Others", id: 6 },
   ];
 
   return (
