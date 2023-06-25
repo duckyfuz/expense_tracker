@@ -1,10 +1,12 @@
 import { Pressable, View, StyleSheet } from "react-native";
-import { Card, Text } from "react-native-paper";
+import { Card, Text, useTheme } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+
+import { Ionicons } from "@expo/vector-icons";
 
 import { getFormattedDate } from "../../util/date";
 
-const ExpenseItem = ({ id, description, amount, date }) => {
+const ExpenseItem = ({ id, description, amount, date, category }, props) => {
   const navigation = useNavigation();
 
   function expensePressHandler() {
@@ -12,12 +14,38 @@ const ExpenseItem = ({ id, description, amount, date }) => {
     navigation.navigate("ManageExpense", { expenseId: id });
   }
 
+  const typeToIcon = {
+    "Food & Drinks": "restaurant",
+    Entertainment: "tv",
+    "Bills & Fees": "card",
+    Transportation: "bus",
+    "Personal Wants": "rocket",
+    Others: "server",
+  };
+
   const TitleDate = () => {
     const formattedDate = getFormattedDate(date);
+    const { colors } = useTheme();
+
     return (
-      <View>
-        <Text variant="titleLarge">{description}</Text>
-        <Text variant="labelMedium">{formattedDate}</Text>
+      <View style={{ flexDirection: "row" }}>
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            marginRight: 6,
+          }}
+        >
+          <Ionicons
+            name={typeToIcon[category]}
+            size={32}
+            color={colors.primary}
+          />
+        </View>
+        <View>
+          <Text variant="titleLarge">{description}</Text>
+          <Text variant="labelMedium">{formattedDate}</Text>
+        </View>
       </View>
     );
   };
