@@ -21,7 +21,6 @@ const ExpenseForm = ({
   const { budgetItems } = useContext(BudgetItemContext);
 
   const [showDropDown, setShowDropDown] = useState(false);
-  const [category, setCategory] = useState("");
 
   // Handling inputs
   const [inputs, setInputs] = useState({
@@ -39,6 +38,10 @@ const ExpenseForm = ({
       value: defaultValues ? defaultValues.description : "",
       isValid: true,
     },
+    category: {
+      value: defaultValues ? defaultValues.category : "Others",
+      isValid: true,
+    },
   });
   function inputChangedHandler(inputIdentifier, enteredValue) {
     setInputs((curInputs) => {
@@ -49,19 +52,26 @@ const ExpenseForm = ({
     });
   }
 
-  // Handlingn submissions
+  // Handling submissions
   function submitHandler() {
     const expenseData = {
       amount: +inputs.amount.value,
       date: new Date(inputs.date.value),
       description: inputs.description.value,
+      category: inputs.category.value,
     };
 
     const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0;
     const dateIsValid = expenseData.date.toString() !== "Invalid Date";
     const descriptionIsValid = expenseData.description.trim().length > 0;
+    const categoryIsValid = true;
 
-    if (!amountIsValid || !dateIsValid || !descriptionIsValid) {
+    if (
+      !amountIsValid ||
+      !dateIsValid ||
+      !descriptionIsValid ||
+      !categoryIsValid
+    ) {
       //   Alert.alert("Invalid input", "Please check your input values");
       setInputs((curInputs) => {
         return {
@@ -71,6 +81,10 @@ const ExpenseForm = ({
             value: curInputs.description.value,
             isValid: descriptionIsValid,
           },
+          category: {
+            value: curInputs.category.value,
+            isValid: categoryIsValid,
+          },
         };
       });
       return;
@@ -78,11 +92,6 @@ const ExpenseForm = ({
 
     onSubmit(expenseData);
   }
-
-  const formIsInvalid =
-    !inputs.amount.isValid ||
-    !inputs.date.isValid ||
-    !inputs.description.isValid;
 
   return (
     <View style={{ margin: 8 }}>
@@ -133,8 +142,8 @@ const ExpenseForm = ({
             visible={showDropDown}
             showDropDown={() => setShowDropDown(true)}
             onDismiss={() => setShowDropDown(false)}
-            value={category.length == 0 ? "Others" : category}
-            setValue={setCategory}
+            value={inputs.category.value}
+            setValue={inputChangedHandler.bind(this, "category")}
             list={budgetItems}
           />
         </View>

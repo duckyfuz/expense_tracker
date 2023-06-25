@@ -30,7 +30,6 @@ const ManageExpense = ({ route, navigation }) => {
   const [error, setError] = useState();
 
   const expensesCtx = useContext(ExpensesContext);
-  const lightCtx = useContext(LightContext);
 
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
