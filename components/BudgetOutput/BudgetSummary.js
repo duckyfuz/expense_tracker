@@ -1,7 +1,12 @@
+import { useContext } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Card, Text, Divider } from "react-native-paper";
 
+import { BudgetItemContext } from "../../store/budgetItems-context";
+
 const BudgetSummary = () => {
+  const { budgetItems } = useContext(BudgetItemContext);
+
   const renderBudgetTitle = (itemData) => {
     return (
       <Card style={{ margin: 6, paddingHorizontal: 12, paddingVertical: 6 }}>
@@ -20,13 +25,7 @@ const BudgetSummary = () => {
         <FlatList
           style={{ width: "100%" }}
           horizontal
-          data={[
-            { title: "Food", id: 1 },
-            { title: "Entertainment", id: 2 },
-            { title: "Fees", id: 3 },
-            { title: "Transport", id: 4 },
-            { title: "Others", id: 5 },
-          ]}
+          data={budgetItems}
           numColumns={1}
           renderItem={renderBudgetTitle}
           keyExtractor={(item) => item.id}

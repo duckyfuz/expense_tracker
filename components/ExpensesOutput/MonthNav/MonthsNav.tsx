@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { Card, Text } from "react-native-paper";
 
